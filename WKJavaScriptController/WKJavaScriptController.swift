@@ -97,12 +97,12 @@ public class WKJavaScriptController: NSObject {
             if methodList != nil, var list = Optional(methodList) {
                 let limit = argumentLengthLimit
                 while list.memory.name != nil {
-                    var bridge = MethodBridge(nativeSelector: list.memory.name)
+                    let bridge = MethodBridge(nativeSelector: list.memory.name)
                     if bridge.numberOfArguments > limit {
                         NSLog("[WKJavaScriptController:Warning] The length of argument was longer than \(limit), so it was excluded. (selector: \(bridge.nativeSelector))")
                     } else {
                         // Using ObjC style naming if have a method with the same name.
-                        var list = bridgeList.filter({ $0.jsSelector == bridge.jsSelector })
+                        let list = bridgeList.filter({ $0.jsSelector == bridge.jsSelector })
                         if !list.isEmpty {
                             bridge.extendJsSelector = true
                         }
