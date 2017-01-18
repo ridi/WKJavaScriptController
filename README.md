@@ -34,11 +34,68 @@ post_install do |installer|
        	end
    	end
 end
-
 ```
 
 Then, run the following command:
 
 ```
 $ pod install
+```
+
+## Usage
+```swift
+import WKJavaScriptController
+
+// Create protocol.
+@objc protocol JavaScriptInterface {
+    func onSubmit(dictonary: [String: AnyObject])
+    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String)
+    func onCancel()
+}
+
+// Implement protocol. 
+extension ViewController: JavaScriptInterface {
+    func onSubmit(dictonary: [String: AnyObject]) {
+        NSLog("onSubmit \(dictonary)")
+    }
+    
+    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String) {
+        NSLog("onSubmit \(email), \(firstName), \(lastName), \(address1), \(address2), \(zipCode.value), \(phoneNumber)")
+    }
+    
+    func onCancel() {
+        NSLog("onCancel")
+    }
+}
+
+class ViewController: UIViewController {
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+		
+		// Create javaScriptController.
+		let javaScriptController = WKJavaScriptController(name: "native", target: self, bridgeProtocol: JavaScriptInterface.self)
+		
+		// Add your javascript.
+		let jsString = ...
+		let userScript = WKUserScript(source: jsString, injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
+		javaScriptController.addUserScript(userScript)
+		
+		let webView = WKWebView(...)
+		...
+		
+		// Call prepareForJavaScriptController before initializing WKWebView or loading page.
+		webView.prepareForJavaScriptController()
+		webView.loadRequest(...)
+	}
+	
+	...
+}
+```
+```js
+// In javascript.
+native.onSubmit({
+	'first_name': 'Davin',
+	'last_name': 'Ahn',
+	'mail': 'davin.ahn@ridi.com',
+});
 ```
