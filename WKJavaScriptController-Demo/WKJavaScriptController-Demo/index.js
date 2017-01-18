@@ -2,7 +2,11 @@ function submit() {
     var values = {};
     Array.prototype.slice.call(document.getElementsByTagName('input')).forEach(function(el) {
         if (el.type !== 'button' && el.type !== 'radio') {
-            values[el.id] = el.value;
+            if (el.id === 'zip_code') {
+                values[el.id] = parseInt(el.value);
+            } else {
+                values[el.id] = el.value;
+            }
         }
     });
     if (isChecked('input_json')) {
