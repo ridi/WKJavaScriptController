@@ -2,8 +2,8 @@
 Calling native code from Javascript in iOS likes JavascriptInterface in Android.
 
 ## Requirements
-- Xcode 7.3+
-- Swift 2.3
+- Xcode 8.0+
+- Swift 3
 - iOS8+
 
 ## Installation
@@ -25,15 +25,6 @@ use_frameworks!
 target '<Target name in your project>' do
     pod 'WKJavaScriptController'
 end
-
-// If using Xcode 8.
-post_install do |installer|
-   	installer.pods_project.targets.each do |target|
-       	target.build_configurations.each do |configuration|
-           	configuration.build_settings['SWIFT_VERSION'] = "2.3"
-       	end
-   	end
-end
 ```
 
 Then, run the following command:
@@ -48,18 +39,18 @@ import WKJavaScriptController
 
 // Create protocol.
 @objc protocol JavaScriptInterface {
-    func onSubmit(dictonary: [String: AnyObject])
-    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String)
+    func onSubmit(_ dictonary: [String: AnyObject])
+    func onSubmit(_ email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String)
     func onCancel()
 }
 
 // Implement protocol. 
 extension ViewController: JavaScriptInterface {
-    func onSubmit(dictonary: [String: AnyObject]) {
+    func onSubmit(_ dictonary: [String: AnyObject]) {
         NSLog("onSubmit \(dictonary)")
     }
     
-    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String) {
+    func onSubmit(_ email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String) {
         NSLog("onSubmit \(email), \(firstName), \(lastName), \(address1), \(address2), \(zipCode.value), \(phoneNumber)")
     }
     
@@ -69,7 +60,7 @@ extension ViewController: JavaScriptInterface {
 }
 
 class ViewController: UIViewController {
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 		
 		// Create javaScriptController.
