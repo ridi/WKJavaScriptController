@@ -12,8 +12,8 @@ import WKJavaScriptController
 
 @objc protocol JavaScriptInterface {
     func onSubmit(dictonary: [String: AnyObject])
-    func onSubmit(dictonary: [String: AnyObject], clear: Bool)
-    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: Int, phoneNumber: String)
+    func onSubmit(dictonary: [String: AnyObject], clear: JSBool)
+    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String)
     func onCancel()
 }
 
@@ -54,15 +54,15 @@ extension ViewController: JavaScriptInterface {
         NSLog("onSubmit \(dictonary)")
     }
     
-    func onSubmit(dictonary: [String: AnyObject], clear: Bool) {
+    func onSubmit(dictonary: [String: AnyObject], clear: JSBool) {
         NSLog("onSubmit \(dictonary)")
-        if clear {
+        if clear.value {
             webView.evaluateJavaScript("clearAll()", completionHandler: nil)
         }
     }
     
-    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: Int, phoneNumber: String) {
-        NSLog("onSubmit \(email), \(firstName), \(lastName), \(address1), \(address2), \(zipCode), \(phoneNumber)")
+    func onSubmit(email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String) {
+        NSLog("onSubmit \(email), \(firstName), \(lastName), \(address1), \(address2), \(zipCode.value), \(phoneNumber)")
     }
     
     func onCancel() {
