@@ -179,7 +179,7 @@ open class WKJavaScriptController: NSObject {
                     }
                     
                     bridgeList.append(bridge)
-                    log("Read \(bridge.nativeSelector) -> \(bridge.jsSelector)")
+                    log("Parsed \(bridge.nativeSelector) -> \(bridge.jsSelector)")
                 }
                 free(methodList)
             }
@@ -270,17 +270,17 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         func cast(_ arg: Arg) -> Arg {
             if let number = arg as? NSNumber,
                 let type = String(cString: number.objCType, encoding: String.Encoding.utf8) {
-                switch type {
-                case "c", "C", "B":
-                    return JSBool(value: number)
-                default:
-                    if number.stringValue.range(of: ".") != nil {
-                        return JSFloat(value: number)
-                    } else if number.stringValue == "nan" {
-                        return JSInt(value: NSNumber(value: 0 as Int))
+                    switch type {
+                    case "c", "C", "B":
+                        return JSBool(value: number)
+                    default:
+                        if number.stringValue.range(of: ".") != nil {
+                            return JSFloat(value: number)
+                        } else if number.stringValue == "nan" {
+                            return JSInt(value: NSNumber(value: 0 as Int))
+                        }
+                        return JSInt(value: number)
                     }
-                    return JSInt(value: number)
-                }
             }
             return arg
         }
