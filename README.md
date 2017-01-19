@@ -66,13 +66,16 @@ class ViewController: UIViewController {
 		// Create javaScriptController.
 		let javaScriptController = WKJavaScriptController(name: "native", target: self, bridgeProtocol: JavaScriptInterface.self)
 		
-		// Add your javascript.
+		// [Optional] Add your javascript.
 		let jsString = ...
 		let userScript = WKUserScript(source: jsString, injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
 		javaScriptController.addUserScript(userScript)
 		
 		let webView = WKWebView(...)
 		...
+		
+		// Assign javaScriptController.
+		webView.javaScriptController = javaScriptController
 		
 		// Call prepareForJavaScriptController before initializing WKWebView or loading page.
 		webView.prepareForJavaScriptController()
