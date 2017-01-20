@@ -101,5 +101,5 @@ native.onSubmit({
 - Can not receive native return in JavaScript.
 - Method argument length is up to 10.
 - Allowed types for argument types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull(If pass undefined in JavaScript).
-- If Value Types of Swift(Bool, Int32, Int, Float, Double, ...) used in argument is not wrapped in NSArray or NSDictionary, then it must be replaced with JSBool, JSInt or JSFloat.
+- If Value types of Swift(Bool, Int32, Int, Float, Double, ...) used in argument is not wrapped in NSArray or NSDictionary, then it must be replaced with JSBool, JSInt or JSFloat.
 (In ObjC, Value types of Swift is replaced by NSNumber.)

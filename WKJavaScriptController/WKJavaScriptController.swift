@@ -263,7 +263,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         }
         
         let imp = method_getImplementation(method)
-        if imp == nil { // Always true...?
+        if imp == nil { // Always false...?
             return
         }
         
