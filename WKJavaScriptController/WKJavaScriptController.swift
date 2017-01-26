@@ -58,6 +58,9 @@ open class JSFloat: JSValueType {
     }
 }
 
+public let WKJavaScriptControllerIgnoredMethodInvocationNotification = NSNotification.Name(rawValue: "WKJavaScriptControllerIgnoredMethodInvocationNotification")
+public let WKJavaScriptControllerWillMethodInvocationNotification = NSNotification.Name(rawValue: "WKJavaScriptControllerWillMethodInvocationNotification")
+
 open class WKJavaScriptController: NSObject {
     // If true, do not allow NSNull(If pass undefined in JavaScript) for method arguments.
     // That is, if get NSNull as arguments, do not call method.
@@ -263,6 +266,13 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         if shouldSafeMethodCall {
             for arg in args {
                 if arg is NSNull {
+                    let userInfo = [
+                        "nativeSelector": bridge.nativeSelector,
+                        "jsSelector": bridge.jsSelector,
+                        "args": args,
+                        "reason": "Arguments has NSNull(=undefined).",
+                    ] as [String : Any]
+                    NotificationCenter.default.post(name: WKJavaScriptControllerIgnoredMethodInvocationNotification, object: nil, userInfo: userInfo)
                     return
                 }
             }
@@ -296,6 +306,13 @@ extension WKJavaScriptController: WKScriptMessageHandler {
             }
             return arg
         }
+        
+        let userInfo = [
+            "nativeSelector": bridge.nativeSelector,
+            "jsSelector": bridge.jsSelector,
+            "args": args,
+        ] as [String : Any]
+        NotificationCenter.default.post(name: WKJavaScriptControllerWillMethodInvocationNotification, object: nil, userInfo: userInfo)
         
         switch bridge.argumentLength {
         case 0:
