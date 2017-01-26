@@ -303,6 +303,10 @@ extension WKJavaScriptController: WKScriptMessageHandler {
                         }
                         return JSInt(value: number)
                     }
+            } else if let string = arg as? String,
+                let data = string.data(using: .utf8),
+                let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                    return json as Arg
             }
             return arg
         }
