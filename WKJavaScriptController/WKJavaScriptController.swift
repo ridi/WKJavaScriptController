@@ -59,6 +59,10 @@ open class JSFloat: JSValueType {
 }
 
 open class WKJavaScriptController: NSObject {
+    // If true, do not allow NSNull(If pass undefined in JavaScript) for method arguments.
+    // That is, if get NSNull as arguments, do not call method.
+    open var shouldSafeMethodCall = true
+    
     fileprivate let name: String
     fileprivate weak var target: AnyObject?
     fileprivate let bridgeProtocol: Protocol
@@ -254,6 +258,14 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         if args.count != bridge.argumentLength {
             log("Argument length is different. (received: \(args.count), required: \(bridge.argumentLength))")
             return
+        }
+        
+        if shouldSafeMethodCall {
+            for arg in args {
+                if arg is NSNull {
+                    return
+                }
+            }
         }
         
         let method = class_getInstanceMethod(target.classForCoder, bridge.nativeSelector)
