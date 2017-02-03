@@ -19,7 +19,7 @@ $ gem install cocoapods
 
 To integrate WKJavaScriptController into your Xcode project using CocoaPods, specify it in your Podfile:
 
-```
+```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
@@ -100,6 +100,6 @@ native.onSubmit({
 ## Limitations
 - Can not receive native return in JavaScript.
 - Method argument length is up to 10.
-- Allowed types for argument types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull(If pass undefined in JavaScript).
-- If Value types of Swift(Bool, Int32, Int, Float, Double, ...) used in argument is not wrapped in NSArray or NSDictionary, then it must be replaced with JSBool, JSInt or JSFloat.
+- Allowed argument types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull(when `undefined` passed).
+- If Value types of Swift(Bool, Int32, Int, Float, Double, ...) used in argument that are not wrapped in NSArray or NSDictionary, it must be replaced with JSBool, JSInt or JSFloat.
 (In ObjC, Value types of Swift is replaced by NSNumber.)
