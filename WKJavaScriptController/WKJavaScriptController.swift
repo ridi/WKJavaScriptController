@@ -62,9 +62,12 @@ public let WKJavaScriptControllerIgnoredMethodInvocationNotification = NSNotific
 public let WKJavaScriptControllerWillMethodInvocationNotification = NSNotification.Name(rawValue: "WKJavaScriptControllerWillMethodInvocationNotification")
 
 open class WKJavaScriptController: NSObject {
-    // If true, do not allow NSNull(If pass undefined in JavaScript) for method arguments.
+    // If true, do not allow NSNull(If passed undefined in JavaScript) for method arguments.
     // That is, if get NSNull as arguments, do not call method.
     open var shouldSafeMethodCall = true
+    
+    // If true, converts to dictionary when json string is received as an argument.
+    open var shouldConvertJSONString = true
     
     fileprivate let name: String
     fileprivate weak var target: AnyObject?
@@ -318,7 +321,8 @@ extension WKJavaScriptController: WKScriptMessageHandler {
                         }
                         return JSInt(value: number)
                     }
-            } else if let string = arg as? String,
+            } else if shouldConvertJSONString,
+                let string = arg as? String,
                 let data = string.data(using: .utf8),
                 let json = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) {
                     return json as Arg
