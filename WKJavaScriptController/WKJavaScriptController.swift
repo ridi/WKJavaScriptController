@@ -123,72 +123,87 @@ open class WKJavaScriptController: NSObject {
         parseBridgeProtocol()
     }
     
+    fileprivate func protocolsAdoptedBy(`protocol`: Protocol) -> [Protocol] {
+        var protocols = [`protocol`]
+        let protocolList = protocol_copyProtocolList(`protocol`, nil)
+        if protocolList != nil, var list = Optional(protocolList) {
+            if let adoptedProtocol = list?.pointee.unsafelyUnwrapped {
+                protocols += protocolsAdoptedBy(protocol: adoptedProtocol)
+            }
+        }
+        return protocols
+    }
+    
     fileprivate func parseBridgeProtocol() {
-        // Class methods are not supported.
-        for (isRequired, isInstance) in [(true, true), (false, true)] {
-            let methodList = protocol_copyMethodDescriptionList(bridgeProtocol.self, isRequired, isInstance, nil)
-            if methodList != nil, var list = Optional(methodList) {
-                let limit = argumentLengthLimit
-                while list?.pointee.name != nil {
-                    defer { list = list?.successor() }
-                    
-                    let selector = list?.pointee.name
-                    guard let types = list?.pointee.types,
-                        let signature = String(cString: types, encoding: String.Encoding.utf8) else {
-                            log("Method signature not found, so it was excluded. (selector: \(selector))")
+        for `protocol` in protocolsAdoptedBy(protocol: bridgeProtocol.self).reversed() {
+            log("Protocol: \(String(format: "%s", protocol_getName(`protocol`)))")
+            
+            // Class methods are not supported.
+            for (isRequired, isInstance) in [(true, true), (false, true)] {
+                let methodList = protocol_copyMethodDescriptionList(`protocol`, isRequired, isInstance, nil)
+                if methodList != nil, var list = Optional(methodList) {
+                    let limit = argumentLengthLimit
+                    while list?.pointee.name != nil {
+                        defer { list = list?.successor() }
+                        
+                        let selector = list?.pointee.name
+                        guard let types = list?.pointee.types,
+                            let signature = String(cString: types, encoding: String.Encoding.utf8) else {
+                                log("Method signature not found, so it was excluded. (selector: \(selector))")
+                                continue
+                        }
+                        
+                        // Ref: http://nshipster.com/type-encodings/
+                        // c: A char                  v: A void
+                        // C: An unsigned char        B: A C++ bool or C99 _bool
+                        // i: An int                  @: An object (whether statically typed or typed id)
+                        // I: An unsigned int         #: A class object
+                        // s: A short                 :: A method selector (SEL)
+                        // S: An unsigned short       [array type]: An array
+                        // l: A long                  {name=type...}: A structure
+                        // L: An unsigned long        (name=type...): A union
+                        // q: A long long             bnum: A bit field of num bits
+                        // Q: An unsigned long long   ^type: A pointer to type
+                        // f: A float                 ?: An unknown type (among other things, this code is used for function pointers)
+                        // d: A double
+                        if !signature.hasPrefix("v") {
+                            log("Can not receive native return in JavaScript, so it was excluded. (selector: \(selector))")
                             continue
+                        }
+                        
+                        if signature.range(of: "[cC#\\[\\{\\(b\\^\\?]", options: [.regularExpression]) != nil {
+                            log("It has an unsupported reference type as arguments, so it was excluded. (selector: \(selector))")
+                            log("Allowed reference types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull.")
+                            continue
+                        }
+                        
+                        // Value types of Swift can't be used. because method call is based on ObjC.
+                        if signature.range(of: "[iIsSlLqQfdB]", options: [.regularExpression]) != nil {
+                            log("It has an unsupported value type as arguments, so it was excluded. (selector: \(selector))")
+                            log("Allowed value types are JSBool, JSInt and JSFloat.")
+                            continue
+                        }
+                        
+                        let bridge = MethodBridge(nativeSelector: selector!)
+                        if bridge.argumentLength > limit {
+                            log("Argument length is longer than \(limit), so it was excluded. (selector: \(bridge.nativeSelector))")
+                            continue
+                        }
+                        
+                        // Using ObjC style naming if have a method with the same name.
+                        let list = bridgeList.filter({ $0.jsSelector == bridge.jsSelector })
+                        if !list.isEmpty {
+                            bridge.extendJsSelector = true
+                        }
+                        for bridge in list {
+                            bridge.extendJsSelector = true
+                        }
+                        
+                        bridgeList.append(bridge)
+                        log("Parsed: \(isRequired ? "" : "Optional ")\(bridge.nativeSelector) -> \(bridge.jsSelector)")
                     }
-                    
-                    // Ref: http://nshipster.com/type-encodings/
-                    // c: A char                  v: A void
-                    // C: An unsigned char        B: A C++ bool or C99 _bool
-                    // i: An int                  @: An object (whether statically typed or typed id)
-                    // I: An unsigned int         #: A class object
-                    // s: A short                 :: A method selector (SEL)
-                    // S: An unsigned short       [array type]: An array
-                    // l: A long                  {name=type...}: A structure
-                    // L: An unsigned long        (name=type...): A union
-                    // q: A long long             bnum: A bit field of num bits
-                    // Q: An unsigned long long   ^type: A pointer to type
-                    // f: A float                 ?: An unknown type (among other things, this code is used for function pointers)
-                    // d: A double
-                    if !signature.hasPrefix("v") {
-                        log("Can not receive native return in JavaScript, so it was excluded. (selector: \(selector))")
-                        continue
-                    }
-                    
-                    if signature.range(of: "[cC#\\[\\{\\(b\\^\\?]", options: [.regularExpression]) != nil {
-                        log("It has an unsupported reference type as arguments, so it was excluded. (selector: \(selector))")
-                        log("Allowed reference types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull.")
-                        continue
-                    }
-                    
-                    // Value types of Swift can't be used. because method call is based on ObjC.
-                    if signature.range(of: "[iIsSlLqQfdB]", options: [.regularExpression]) != nil {
-                        log("It has an unsupported value type as arguments, so it was excluded. (selector: \(selector))")
-                        log("Allowed value types are JSBool, JSInt and JSFloat.")
-                        continue
-                    }
-                    
-                    let bridge = MethodBridge(nativeSelector: selector!)
-                    if bridge.argumentLength > limit {
-                        log("Argument length is longer than \(limit), so it was excluded. (selector: \(bridge.nativeSelector))")
-                        continue
-                    }
-                    
-                    // Using ObjC style naming if have a method with the same name.
-                    let list = bridgeList.filter({ $0.jsSelector == bridge.jsSelector })
-                    if !list.isEmpty {
-                        bridge.extendJsSelector = true
-                    }
-                    for bridge in list {
-                        bridge.extendJsSelector = true
-                    }
-                    
-                    bridgeList.append(bridge)
-                    log("Parsed \(bridge.nativeSelector) -> \(bridge.jsSelector)")
+                    free(methodList)
                 }
-                free(methodList)
             }
         }
     }
