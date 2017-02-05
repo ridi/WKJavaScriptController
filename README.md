@@ -102,4 +102,5 @@ native.onSubmit({
 - Method argument length is up to 10.
 - Allowed argument types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull(when `undefined` passed).
 - If Value types of Swift(Bool, Int32, Int, Float, Double, ...) used in argument that are not wrapped in NSArray or NSDictionary, it must be replaced with JSBool, JSInt or JSFloat.
-(In ObjC, Value types of Swift is replaced by NSNumber.)
+(Because Value types of Swift in ObjC is replaced by NSNumber.)
+- Class methods in protocol are not supported.
