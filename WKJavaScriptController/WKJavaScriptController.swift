@@ -281,21 +281,6 @@ extension WKJavaScriptController: WKScriptMessageHandler {
             return
         }
         
-        if shouldSafeMethodCall {
-            for arg in args {
-                if arg is NSNull {
-                    let userInfo = [
-                        "nativeSelector": bridge.nativeSelector,
-                        "jsSelector": bridge.jsSelector,
-                        "args": args,
-                        "reason": "Arguments has NSNull(=undefined).",
-                    ] as [String : Any]
-                    NotificationCenter.default.post(name: WKJavaScriptControllerIgnoredMethodInvocationNotification, object: nil, userInfo: userInfo)
-                    return
-                }
-            }
-        }
-        
         let method = class_getInstanceMethod(target.classForCoder, bridge.nativeSelector)
         if method == nil {
             log("An unimplemented method has been called. (selector: \(bridge.nativeSelector))")
@@ -334,8 +319,23 @@ extension WKJavaScriptController: WKScriptMessageHandler {
             "nativeSelector": bridge.nativeSelector,
             "jsSelector": bridge.jsSelector,
             "args": args,
-        ] as [String : Any]
+        ] as [String: Any]
         NotificationCenter.default.post(name: WKJavaScriptControllerWillMethodInvocationNotification, object: nil, userInfo: userInfo)
+        
+        if shouldSafeMethodCall {
+            for arg in args {
+                if arg is NSNull {
+                    let userInfo = [
+                        "nativeSelector": bridge.nativeSelector,
+                        "jsSelector": bridge.jsSelector,
+                        "args": args,
+                        "reason": "Arguments has NSNull(=undefined).",
+                    ] as [String: Any]
+                    NotificationCenter.default.post(name: WKJavaScriptControllerIgnoredMethodInvocationNotification, object: nil, userInfo: userInfo)
+                    return
+                }
+            }
+        }
         
         switch bridge.argumentLength {
         case 0:
