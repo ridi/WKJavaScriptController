@@ -129,7 +129,7 @@ open class WKJavaScriptController: NSObject {
     fileprivate func protocolsAdoptedBy(`protocol`: Protocol) -> [Protocol] {
         var protocols = [`protocol`]
         let protocolList = protocol_copyProtocolList(`protocol`, nil)
-        if protocolList != nil, var list = Optional(protocolList) {
+        if protocolList != nil, let list = Optional(protocolList) {
             if let adoptedProtocol = list?.pointee.unsafelyUnwrapped {
                 protocols += protocolsAdoptedBy(protocol: adoptedProtocol)
             }
@@ -149,10 +149,10 @@ open class WKJavaScriptController: NSObject {
                     while list?.pointee.name != nil {
                         defer { list = list?.successor() }
                         
-                        let selector = list?.pointee.name
-                        guard let types = list?.pointee.types,
+                        guard let selector = list?.pointee.name,
+                            let types = list?.pointee.types,
                             let signature = String(cString: types, encoding: String.Encoding.utf8) else {
-                                log("Method signature not found, so it was excluded. (selector: \(selector))")
+                                log("Method signature not found, so it was excluded. (selector: \(list?.pointee.name ?? "nil"))")
                                 continue
                         }
                         
@@ -187,7 +187,7 @@ open class WKJavaScriptController: NSObject {
                             continue
                         }
                         
-                        let bridge = MethodBridge(nativeSelector: selector!)
+                        let bridge = MethodBridge(nativeSelector: selector)
                         if bridge.argumentLength > limit {
                             log("Argument length is longer than \(limit), so it was excluded. (selector: \(bridge.nativeSelector))")
                             continue
