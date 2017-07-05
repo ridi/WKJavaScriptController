@@ -102,6 +102,7 @@
 			buildConfigurationList = 83FA359C1E2C5C6900A6B171 /* Build configuration list for PBXNativeTarget "WKJavaScriptController-Demo" */;
 			buildPhases = (
 				7C3475A598746FB73315144A /* [CP] Check Pods Manifest.lock */,
+				83054A791F0C76460001C4B0 /* SwiftLint Script */,
 				83FA35861E2C5C6900A6B171 /* Sources */,
 				83FA35871E2C5C6900A6B171 /* Frameworks */,
 				83FA35881E2C5C6900A6B171 /* Resources */,
@@ -197,6 +198,20 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		83054A791F0C76460001C4B0 /* SwiftLint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftLint Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "function toVersion { echo -e \"$@\" | awk -F. '{ printf(\"%d%03d%03d%03d\\n\", $1,$2,$3,$4); }'; }\nif which swiftlint >/dev/null; then\n    current=$(swiftlint version)\n    require=\"0.20.0\"\n    if [ $(toVersion \"$current\") -ge $(toVersion \"$require\") ]; then\n        cd \"${PROJECT_DIR}/../\"\n        swiftlint\n    else\n        echo \"SwiftLint requires a SwiftLint version of >= $require. You are on $current.\"\n        echo \"Please update using 'brew upgrade swiftlint'.\"\n        exit 101\n    fi\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\n    exit 100\nfi";
 		};
 		FAD7856FCA59270D07D9FB11 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

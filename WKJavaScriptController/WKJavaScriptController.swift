@@ -152,7 +152,7 @@ open class WKJavaScriptController: NSObject {
                         guard let selector = list?.pointee.name,
                             let types = list?.pointee.types,
                             let signature = String(cString: types, encoding: String.Encoding.utf8) else {
-                                log("Method signature not found, so it was excluded. (selector: \(list?.pointee.name ?? "nil"))")
+                                log("Method signature not found, so it was excluded. (selector: \(list?.pointee.name ?? Selector(("nil"))))")
                                 continue
                         }
                         
@@ -272,7 +272,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let target = target,
             let args = message.body as? [Arg],
-            let bridge = bridgeList.filter({ $0.jsSelector == message.name }).first else {
+            let bridge = bridgeList.first(where: { $0.jsSelector == message.name }) else {
                 return
         }
         
@@ -318,7 +318,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         let userInfo = [
             "nativeSelector": bridge.nativeSelector,
             "jsSelector": bridge.jsSelector,
-            "args": args,
+            "args": args
         ] as [String: Any]
         NotificationCenter.default.post(name: WKJavaScriptControllerWillMethodInvocationNotification, object: nil, userInfo: userInfo)
         
@@ -329,7 +329,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
                         "nativeSelector": bridge.nativeSelector,
                         "jsSelector": bridge.jsSelector,
                         "args": args,
-                        "reason": "Arguments has NSNull(=undefined).",
+                        "reason": "Arguments has NSNull(=undefined)."
                     ] as [String: Any]
                     NotificationCenter.default.post(name: WKJavaScriptControllerIgnoredMethodInvocationNotification, object: nil, userInfo: userInfo)
                     return

@@ -1,24 +1,39 @@
+# Note 1: 가독성 개선 및 코드 간략화를 위함
+# Note 2: Xcode 에디터 특성상 의미 없음
+# Note 3: VC 구조상 지킬 수 없음
+# Note 4: API 관련 Data class와 JSI 설계를 위함
+# Note 5: 속도 향상을 위함
+# Note 6: ObjC 스타일의 네이밍을 사용하기 때문에 지킬 수 없음
+#        (Swift에 rename refactor가 지원되기 전까지는 ObjC 스타일을 유지할 예정)
+# Note 7: 추후 RxSwift 및 Swift3 대응으로 해결할 예정
+
+disabled_rules:
+  # Global
+  - file_length # 파일 길이 제한 없음 (Note 3)
+  - for_where # for-in-where 강제 안함 (Note 1)
+  - force_cast # 강제 cast 허용 (Note 1)
+  - force_try # 강제 try 허용 (Note 1)
+  - function_body_length # 함수 구현부 길이 제한 없음 (Note 1)
+  - function_parameter_count # 함수 파라메터 갯수 제한 없음 (Note 4)
+  - line_length # 행 길이 제한 없음 (Note 2)
+  - todo
+  - trailing_whitespace # 구문 줄 바꿈 허용 (Note 1)
+  - type_body_length # 타입 선언부 길이 제한 없음 (Note 3)
+  - variable_name # 변수명 길이 제한 없음 (Note 4)
+  - vertical_whitespace # 수직 여백 허용 (Note 1)
+  # WKJavaScriptController
+  - cyclomatic_complexity # 복잡도 무시 (Note 7)
+
+opt_in_rules:
+  - empty_count # isEmpty 사용 강제 (Note 1, 5)
+  - closure_end_indentation # 클로저의 시작과 끝의 들여쓰기를 동일하게 맞추도록 (Note 1)
+  - closure_spacing # 클로저 표현식의 시작과 끝에 공백을 넣도록 (Note 1)
+  - explicit_init # 명시적인 init 호출을 하지 않도록 (Note 1)
+  - first_where # `.filter { … }.first` 보다 `.first(where: { … })`를 사용하도록 (Note 1, 5)
+
 included:
   - WKJavaScriptController
   - WKJavaScriptController-Demo
 
 excluded:
   - Pods
-
-variable_name:
-  min_length:
-    warning: 0
-    error: 0
-
-disabled_rules:
-  - file_length
-  - force_cast
-  - force_try
-  - function_body_length
-  - function_parameter_count
-  - todo
-  - type_body_length
-  - line_length
-  - trailing_whitespace
-  - cyclomatic_complexity
-  - variable_name
