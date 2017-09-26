@@ -2,17 +2,17 @@
 Calling native code from Javascript in iOS likes JavascriptInterface in Android.
 
 ## Requirements
-- Xcode 8.0+
+- Xcode 9.0+
 - Swift 3
 - iOS8+
 
-(based on WKJavaScriptController 1.1.0+)
+(based on WKJavaScriptController 1.1.7+)
 
 ## Installation
 This library is distributed by [CocoaPods](https://cocoapods.org).
 
  CocoaPods is a dependency manager for Cocoa projects. You can install it with the following command:
- 
+
 ```
 $ gem install cocoapods
 ```
@@ -102,5 +102,5 @@ native.onSubmit({
 - Method argument length is up to 10.
 - Allowed argument types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull(when `undefined` passed).
 - If Value types of Swift(Bool, Int32, Int, Float, Double, ...) used in argument that are not wrapped in NSArray or NSDictionary, it must be replaced with JSBool, JSInt or JSFloat.
-(Because Value types of Swift in ObjC is replaced by NSNumber.)
+  (Because Value types of Swift in ObjC is replaced by NSNumber.)
 - Class methods in protocol are not supported.

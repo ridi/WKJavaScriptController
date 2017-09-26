@@ -130,7 +130,7 @@ open class WKJavaScriptController: NSObject {
         var protocols = [`protocol`]
         let protocolList = protocol_copyProtocolList(`protocol`, nil)
         if protocolList != nil, let list = Optional(protocolList) {
-            if let adoptedProtocol = list?.pointee.unsafelyUnwrapped {
+            if let adoptedProtocol = list?.pointee {
                 protocols += protocolsAdoptedBy(protocol: adoptedProtocol)
             }
         }
