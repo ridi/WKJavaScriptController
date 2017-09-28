@@ -36,4 +36,4 @@ included:
   - WKJavaScriptController-Demo
 
 excluded:
-  - Pods
+  - WKJavaScriptController-Demo/Pods
