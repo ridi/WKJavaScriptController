@@ -69,35 +69,35 @@ extension ViewController: JavaScriptInterface {
 class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-		
-		// Create javaScriptController.
-		let javaScriptController = WKJavaScriptController(name: "native", target: self, bridgeProtocol: JavaScriptInterface.self)
-		
-		// [Optional] Add your javascript.
-		let jsString = ...
-		let userScript = WKUserScript(source: jsString, injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
-		javaScriptController.addUserScript(userScript)
-		
-		let webView = WKWebView(...)
-		...
-		
-		// Assign javaScriptController.
-		webView.javaScriptController = javaScriptController
-		
-		// Call prepareForJavaScriptController before initializing WKWebView or loading page.
-		webView.prepareForJavaScriptController()
-		webView.loadRequest(...)
-	}
-	
-	...
+        
+        // Create javaScriptController.
+        let javaScriptController = WKJavaScriptController(name: "native", target: self, bridgeProtocol: JavaScriptInterface.self)
+        
+        // [Optional] Add your javascript.
+        let jsString = ...
+        let userScript = WKUserScript(source: jsString, injectionTime: .AtDocumentEnd, forMainFrameOnly: true)
+        javaScriptController.addUserScript(userScript)
+        
+        let webView = WKWebView(...)
+        ...
+        
+        // Assign javaScriptController.
+        webView.javaScriptController = javaScriptController
+        
+        // Call prepareForJavaScriptController before initializing WKWebView or loading page.
+        webView.prepareForJavaScriptController()
+        webView.loadRequest(...)
+    }
+    
+    ...
 }
 ```
 ```js
 // In javascript.
 native.onSubmit({
-	'first_name': 'Davin',
-	'last_name': 'Ahn',
-	'mail': 'davin.ahn@ridi.com',
+    'first_name': 'Davin',
+    'last_name': 'Ahn',
+    'mail': 'davin.ahn@ridi.com',
 });
 ```
 
