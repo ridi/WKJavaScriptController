@@ -1,12 +1,11 @@
 language: objective-c
 osx_image: xcode8.3
 
-xcode_workspace: "./WKJavaScriptController-Demo/WKJavaScriptController-Demo.xcworkspace"
-xcode_scheme: WKJavaScriptController-Demo
-
 install:
-- cd WKJavaScriptController-Demo || pod install
-- brew update; brew outdated swiftlint || brew upgrade swiftlint
+    - brew update; brew outdated swiftlint || brew upgrade swiftlint
+
+script:
+    - xcodebuild clean build -sdk iphonesimulator -workspace ./WKJavaScriptController-Demo/WKJavaScriptController-Demo.xcworkspace -scheme WKJavaScriptController-Demo CODE_SIGNING_REQUIRED=NO
 
 notifications:
   email: false
