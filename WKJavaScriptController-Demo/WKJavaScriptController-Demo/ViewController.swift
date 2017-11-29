@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  WKJavaScriptController-Demo
-//
-//  Created by Da Vin Ahn on 2017. 1. 16..
-//  Copyright © 2017년 Davin Ahn. All rights reserved.
-//
-
 import UIKit
 import WebKit
 import WKJavaScriptController
