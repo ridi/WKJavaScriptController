@@ -1,0 +1,16 @@
+language: objective-c
+osx_image: xcode8.3
+
+xcode_workspace: "./WKJavaScriptController-Demo/WKJavaScriptController-Demo.xcworkspace"
+xcode_scheme: WKJavaScriptController-Demo
+
+install:
+- cd WKJavaScriptController-Demo || pod install
+- brew update; brew outdated swiftlint || brew upgrade swiftlint
+
+notifications:
+  email: false
+  slack:
+    rooms:
+      secure: LSegS7tTgL2JUq/JscW4CL7s5r4J7oCJLpIG369PjdMVZJMGCf8guqvsHQeTHhIdlWKxSLy9o6qT2/snV5gcKpH1LbxmEERb96/CptNFvFkExkwRb9HxnPvvD87bZ+qh00zte2bvyiifuUs838/ZByXW0KBiiaR71rwCYaeMAy3bVj524g9EOJz4ot35ny5C3SprGQDO5B0xinf8ACEN6yS9fcn58foiGM1VWilNRVyiJ3RrHmtqerdU0A5QhMjVWra5sbfhROnPv7mUpo/lt7yUKXNlMWGw96p3Rq9k0EVCW8ODlXepYRzjEZWwF9+gJfzG/3UyiveGdRGcQe5sd9FImi3hxfQ0a7YWG6xAdOaYV2F/wFoUY9sDLB9L0JTlGnkqdiZvbBXbGPqiuYoBPPpRAP3w3k8pFHA+Qu86cYaGDWs7qTmJ+5VCPFnJD7spZb9XQmOvhECd9hlMJBXhJYsA7tEy1nbRBbqk49uP13JpZchc7iVzgDwu9IcB1a0vNIl5m+S5DUXsnvcBS/RTZwzBUy+R8EZiRjGwv/uoQGGL1B37heuTpN4gLjXSmCl3L7y5rG6cDw70Y0Ta4thPe3B1WfYp3Zciisz2dFi9F5s0sKj37UEmdJ8mcj1pJWiAXypo6E1K3XS5lUtBH6I7igauLbuEPhwVsRBCRbALpjc=
+    on_success: change
