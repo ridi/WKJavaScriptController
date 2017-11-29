@@ -5,7 +5,7 @@ install:
     - brew update; brew outdated swiftlint || brew upgrade swiftlint
 
 script:
-    - xcodebuild clean build -sdk iphonesimulator -workspace ./WKJavaScriptController-Demo/WKJavaScriptController-Demo.xcworkspace -scheme WKJavaScriptController-Demo CODE_SIGNING_REQUIRED=NO
+    - xcodebuild clean build -sdk iphonesimulator -workspace "./WKJavaScriptController-Demo/WKJavaScriptController-Demo.xcworkspace" -scheme "WKJavaScriptController-Demo" CODE_SIGNING_REQUIRED=NO
 
 notifications:
   email: false
