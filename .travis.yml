@@ -2,10 +2,11 @@ language: objective-c
 osx_image: xcode8.3
 
 install:
+    - cd ./WKJavaScriptController-Demo; pod install
     - brew update; brew outdated swiftlint || brew upgrade swiftlint
 
 script:
-    - xcodebuild clean build -sdk iphonesimulator -workspace "./WKJavaScriptController-Demo/WKJavaScriptController-Demo.xcworkspace" -scheme "WKJavaScriptController-Demo" CODE_SIGNING_REQUIRED=NO
+    - cd ./WKJavaScriptController-Demo; xcodebuild clean build -sdk iphonesimulator -workspace "./WKJavaScriptController-Demo/WKJavaScriptController-Demo.xcworkspace" -scheme "WKJavaScriptController-Demo" CODE_SIGNING_REQUIRED=NO
 
 notifications:
   email: false
