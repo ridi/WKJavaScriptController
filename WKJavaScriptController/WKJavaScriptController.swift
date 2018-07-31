@@ -279,16 +279,12 @@ extension WKJavaScriptController: WKScriptMessageHandler {
             return
         }
         
-        let method = class_getInstanceMethod(target.classForCoder, bridge.nativeSelector)
-        if method == nil {
+        guard let method = class_getInstanceMethod(target.classForCoder, bridge.nativeSelector) else {
             log("An unimplemented method has been called. (selector: \(bridge.nativeSelector))")
             return
         }
         
         let imp = method_getImplementation(method)
-        if imp == nil { // Always false...?
-            return
-        }
         
         func cast(_ arg: Arg) -> Arg {
             if let number = arg as? NSNumber,
