@@ -1,35 +1,6 @@
-# Note 1: 가독성 개선 및 코드 간략화를 위함
-# Note 2: Xcode 에디터 특성상 의미 없음
-# Note 3: VC 구조상 지킬 수 없음
-# Note 4: API 관련 Data class와 JSI 설계를 위함
-# Note 5: 속도 향상을 위함
-# Note 6: ObjC 스타일의 네이밍을 사용하기 때문에 지킬 수 없음
-#        (Swift에 rename refactor가 지원되기 전까지는 ObjC 스타일을 유지할 예정)
-# Note 7: 추후 RxSwift 및 Swift3 대응으로 해결할 예정
+# refs: https://github.com/realm/SwiftLint/blob/master/Rules.md
 
-disabled_rules:
-  # Global
-  - file_length # 파일 길이 제한 없음 (Note 3)
-  - for_where # for-in-where 강제 안함 (Note 1)
-  - force_cast # 강제 cast 허용 (Note 1)
-  - force_try # 강제 try 허용 (Note 1)
-  - function_body_length # 함수 구현부 길이 제한 없음 (Note 1)
-  - function_parameter_count # 함수 파라메터 갯수 제한 없음 (Note 4)
-  - line_length # 행 길이 제한 없음 (Note 2)
-  - todo
-  - trailing_whitespace # 구문 줄 바꿈 허용 (Note 1)
-  - type_body_length # 타입 선언부 길이 제한 없음 (Note 3)
-  - variable_name # 변수명 길이 제한 없음 (Note 4)
-  - vertical_whitespace # 수직 여백 허용 (Note 1)
-  # WKJavaScriptController
-  - cyclomatic_complexity # 복잡도 무시 (Note 7)
-
-opt_in_rules:
-  - empty_count # isEmpty 사용 강제 (Note 1, 5)
-  - closure_end_indentation # 클로저의 시작과 끝의 들여쓰기를 동일하게 맞추도록 (Note 1)
-  - closure_spacing # 클로저 표현식의 시작과 끝에 공백을 넣도록 (Note 1)
-  - explicit_init # 명시적인 init 호출을 하지 않도록 (Note 1)
-  - first_where # `.filter { … }.first` 보다 `.first(where: { … })`를 사용하도록 (Note 1, 5)
+reporter: "xcode"
 
 included:
   - WKJavaScriptController
@@ -37,3 +8,52 @@ included:
 
 excluded:
   - WKJavaScriptController-Demo/Pods
+
+disabled_rules:
+  - block_based_kvo # Prefer the new block based KVO API with keypaths when using Swift 3.2 or later.
+  - cyclomatic_complexity # Complexity of function bodies should be limited.
+  - file_length # Files should not span too many lines.
+  - for_where # where clauses are preferred over a single if inside a for.
+  - force_cast # Force casts should be avoided.
+  - force_try # Force tries should be avoided.
+  - function_body_length # Functions bodies should not span too many lines.
+  - line_length # Lines should not span too many characters.
+  - todo # TODOs and FIXMEs should be resolved.
+  - trailing_whitespace # Lines should not have trailing whitespace.
+
+opt_in_rules:
+  - array_init # Prefer using Array(seq) over seq.map { $0 } to convert a sequence into an Array.
+  - closure_end_indentation # Closure end should have the same indentation as the line that started it.
+  - closure_spacing # Closure expressions should have a single space inside each brace.
+  - conditional_returns_on_newline # Conditional statements should always return on the next line.
+  - discouraged_optional_boolean # Prefer non-optional booleans over optional booleans.
+  - empty_count # Prefer checking isEmpty over comparing count to zero.
+  - empty_string # Prefer checking isEmpty over comparing string to an empty string literal.
+  - empty_xctest_method # Empty XCTest method should be avoided.
+  - explicit_init # Explicitly calling .init() should be avoided.
+  - extension_access_modifier # Prefer to use extension access modifiers.
+  - fallthrough # Fallthrough should be avoided.
+  - fatal_error_message # A fatalError call should have a message.
+  - file_header # Header comments should be consistent with project patterns.
+  - first_where # Prefer using .first(where:) over .filter { }.first in collections.
+  - function_default_parameter_at_end # Prefer to locate parameters with defaults toward the end of the parameter list.
+  - joined_default_parameter # Discouraged explicit usage of the default. separator.
+  - literal_expression_end_indentation # Array and dictionary literal end should have the same indentation as the line that started it.
+  - lower_acl_than_parent # Ensure definitions have a lower access control level than their enclosing parent.
+  - modifier_order # Modifier order should be consistent.
+  - prohibited_super_call # Some methods should not call super.
+  - sorted_imports # Imports should be sorted.
+  - vertical_parameter_alignment_on_call # Function parameters should be aligned vertically if they're in multiple lines in a method call.
+  - unneeded_parentheses_in_closure_argument # Parentheses are not needed when declaring closure arguments.
+
+function_parameter_count:
+  warning: 11
+  error: 11
+
+identifier_name:
+  max_length:
+    warning: 50
+    error: 50
+  min_length:
+    warning: 1
+    error: 1

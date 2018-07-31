@@ -3,7 +3,7 @@ import WebKit
 private var javaScriptControllerKey: UInt8 = 0
 
 public extension WKWebView {
-    public var javaScriptController: WKJavaScriptController? {
+    var javaScriptController: WKJavaScriptController? {
         set {
             objc_setAssociatedObject(self, &javaScriptControllerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
@@ -17,7 +17,7 @@ public extension WKWebView {
     //         prepareForJavaScriptController()
     //         return super.loadHTMLString(string, baseURL: baseURL)
     //     }
-    public func prepareForJavaScriptController() {
+    func prepareForJavaScriptController() {
         if let controller = javaScriptController,
             controller.needsInject,
             configuration.preferences.javaScriptEnabled {
