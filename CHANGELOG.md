@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * None.
 
+## [1.2.0 (2019-02-26)]
+
+### Changed
+
+* Migrate to Swift 4.2.
+
 ## [1.1.9 (2018-07-31)]
 
 ### Fixed
@@ -86,7 +92,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * First release.
 
-[Unreleased]: https://github.com/ridi/cocoa-oauth2/compare/1.1.9...HEAD
+[Unreleased]: https://github.com/ridi/cocoa-oauth2/compare/1.2.0...HEAD
+[1.2.0 (2019-02-26)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.9...1.2.0
 [1.1.9 (2018-07-31)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.8...1.1.9
 [1.1.8 (2017-11-29)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.7...1.1.8
 [1.1.7 (2017-09-26)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.6...1.1.7

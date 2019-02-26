@@ -10,7 +10,7 @@ Calling native code from Javascript in iOS likes JavascriptInterface in Android.
 - Swift 4.2
 - iOS8+
 
-(based on WKJavaScriptController 1.1.9+)
+(based on WKJavaScriptController 1.2.0+)
 
 ## Installation
 This library is distributed by [CocoaPods](https://cocoapods.org).

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'WKJavaScriptController'
-  s.version      = '1.1.9'
+  s.version      = '1.2.0'
   s.summary      = 'Calling native code from Javascript in the iOS application likes JavascriptInterface in the Android.'
   s.homepage     = 'https://github.com/ridi/WKJavaScriptController'
   s.authors      = { 'Ridibooks Viewer Team' => 'viewer.team@ridi.com' }
