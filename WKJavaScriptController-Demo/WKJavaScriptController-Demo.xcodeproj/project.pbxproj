@@ -14,11 +14,12 @@
 		83FA35931E2C5C6900A6B171 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83FA35911E2C5C6900A6B171 /* Main.storyboard */; };
 		83FA35951E2C5C6900A6B171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83FA35941E2C5C6900A6B171 /* Assets.xcassets */; };
 		83FA35981E2C5C6900A6B171 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83FA35961E2C5C6900A6B171 /* LaunchScreen.storyboard */; };
-		CB0AD65C008BA48F9210E557 /* Pods_WKJavaScriptController_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08B55A682F3D041AC8429F2E /* Pods_WKJavaScriptController_Demo.framework */; };
+		9C30B52454ECA3F3E3AEDF4E /* Pods_WKJavaScriptController_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272FAEE1CFFC059EDAA9D22F /* Pods_WKJavaScriptController_Demo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		08B55A682F3D041AC8429F2E /* Pods_WKJavaScriptController_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WKJavaScriptController_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		272FAEE1CFFC059EDAA9D22F /* Pods_WKJavaScriptController_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WKJavaScriptController_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2CC90156977464A015EF3DCC /* Pods-WKJavaScriptController-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WKJavaScriptController-Demo.debug.xcconfig"; path = "Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		83D5383F1E2C960D00E42B6A /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		83D538411E2C978000E42B6A /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		83FA358A1E2C5C6900A6B171 /* WKJavaScriptController-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WKJavaScriptController-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -28,8 +29,7 @@
 		83FA35941E2C5C6900A6B171 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		83FA35971E2C5C6900A6B171 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83FA35991E2C5C6900A6B171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DC337D3435A2F775557BE49E /* Pods-WKJavaScriptController-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WKJavaScriptController-Demo.release.xcconfig"; path = "Pods/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo.release.xcconfig"; sourceTree = "<group>"; };
-		E0122CF4DC708DB72576311F /* Pods-WKJavaScriptController-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WKJavaScriptController-Demo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		FB0AE82DFFE17201B9503726 /* Pods-WKJavaScriptController-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WKJavaScriptController-Demo.release.xcconfig"; path = "Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB0AD65C008BA48F9210E557 /* Pods_WKJavaScriptController_Demo.framework in Frameworks */,
+				9C30B52454ECA3F3E3AEDF4E /* Pods_WKJavaScriptController_Demo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -49,8 +49,8 @@
 			children = (
 				83FA358C1E2C5C6900A6B171 /* WKJavaScriptController-Demo */,
 				83FA358B1E2C5C6900A6B171 /* Products */,
-				DA75C6286C5FC176C41F598E /* Pods */,
-				C2FD788F1BCC126338B37784 /* Frameworks */,
+				C601BA64EDC03710DF43F3A0 /* Pods */,
+				C71904662FF5A905B66EB106 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,21 +77,22 @@
 			path = "WKJavaScriptController-Demo";
 			sourceTree = "<group>";
 		};
-		C2FD788F1BCC126338B37784 /* Frameworks */ = {
+		C601BA64EDC03710DF43F3A0 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				08B55A682F3D041AC8429F2E /* Pods_WKJavaScriptController_Demo.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DA75C6286C5FC176C41F598E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				E0122CF4DC708DB72576311F /* Pods-WKJavaScriptController-Demo.debug.xcconfig */,
-				DC337D3435A2F775557BE49E /* Pods-WKJavaScriptController-Demo.release.xcconfig */,
+				2CC90156977464A015EF3DCC /* Pods-WKJavaScriptController-Demo.debug.xcconfig */,
+				FB0AE82DFFE17201B9503726 /* Pods-WKJavaScriptController-Demo.release.xcconfig */,
 			);
 			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		C71904662FF5A905B66EB106 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				272FAEE1CFFC059EDAA9D22F /* Pods_WKJavaScriptController_Demo.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -101,13 +102,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83FA359C1E2C5C6900A6B171 /* Build configuration list for PBXNativeTarget "WKJavaScriptController-Demo" */;
 			buildPhases = (
-				7C3475A598746FB73315144A /* [CP] Check Pods Manifest.lock */,
+				16F30D6D14CA9CB2B5D05932 /* [CP] Check Pods Manifest.lock */,
 				83054A791F0C76460001C4B0 /* SwiftLint Script */,
 				83FA35861E2C5C6900A6B171 /* Sources */,
 				83FA35871E2C5C6900A6B171 /* Frameworks */,
 				83FA35881E2C5C6900A6B171 /* Resources */,
-				FAD7856FCA59270D07D9FB11 /* [CP] Embed Pods Frameworks */,
-				1B866D096118D00BDF3BDEE0 /* [CP] Copy Pods Resources */,
+				F74DCF0DFEA075B1393A95B5 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -130,7 +130,7 @@
 				TargetAttributes = {
 					83FA35891E2C5C6900A6B171 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -169,31 +169,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1B866D096118D00BDF3BDEE0 /* [CP] Copy Pods Resources */ = {
+		16F30D6D14CA9CB2B5D05932 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7C3475A598746FB73315144A /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+			inputFileListPaths = (
 			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-WKJavaScriptController-Demo-checkManifestLockResult.txt",
 			);
@@ -216,22 +205,26 @@
 			shellPath = /bin/sh;
 			shellScript = "function toVersion { echo -e \"$@\" | awk -F. '{ printf(\"%d%03d%03d%03d\\n\", $1,$2,$3,$4); }'; }\nif which swiftlint >/dev/null; then\n    current=$(swiftlint version)\n    require=\"0.26.0\"\n    if [ $(toVersion \"$current\") -ge $(toVersion \"$require\") ]; then\n        cd \"${PROJECT_DIR}/../\"\n        swiftlint\n    else\n        echo \"SwiftLint requires a SwiftLint version of >= $require. You are on $current.\"\n        echo \"Please update using 'brew upgrade swiftlint'.\"\n        exit 101\n    fi\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\n    exit 100\nfi";
 		};
-		FAD7856FCA59270D07D9FB11 /* [CP] Embed Pods Frameworks */ = {
+		F74DCF0DFEA075B1393A95B5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
+			inputFileListPaths = (
+			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/WKJavaScriptController/WKJavaScriptController.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WKJavaScriptController.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -377,7 +370,7 @@
 		};
 		83FA359D1E2C5C6900A6B171 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E0122CF4DC708DB72576311F /* Pods-WKJavaScriptController-Demo.debug.xcconfig */;
+			baseConfigurationReference = 2CC90156977464A015EF3DCC /* Pods-WKJavaScriptController-Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "WKJavaScriptController-Demo/Info.plist";
@@ -385,14 +378,15 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davin.WKJavaScriptController-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		83FA359E1E2C5C6900A6B171 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC337D3435A2F775557BE49E /* Pods-WKJavaScriptController-Demo.release.xcconfig */;
+			baseConfigurationReference = FB0AE82DFFE17201B9503726 /* Pods-WKJavaScriptController-Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "WKJavaScriptController-Demo/Info.plist";
@@ -400,7 +394,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davin.WKJavaScriptController-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
