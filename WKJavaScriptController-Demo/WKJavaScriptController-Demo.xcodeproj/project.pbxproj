@@ -102,6 +102,7 @@
 			buildConfigurationList = 83FA359C1E2C5C6900A6B171 /* Build configuration list for PBXNativeTarget "WKJavaScriptController-Demo" */;
 			buildPhases = (
 				16F30D6D14CA9CB2B5D05932 /* [CP] Check Pods Manifest.lock */,
+				2A34D7D522250B8B00250021 /* SwiftFormat Script */,
 				83054A791F0C76460001C4B0 /* SwiftLint Script */,
 				83FA35861E2C5C6900A6B171 /* Sources */,
 				83FA35871E2C5C6900A6B171 /* Frameworks */,
@@ -189,6 +190,24 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		2A34D7D522250B8B00250021 /* SwiftFormat Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "SwiftFormat Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "function toVersion { echo -e \"$@\" | awk -F. '{ printf(\"%d%03d%03d%03d\\n\", $1,$2,$3,$4); }'; }\nif which swiftformat >/dev/null; then\n    current=$(swiftformat --version)\n    current=\"${current##* }\"\n    require=\"0.39.3\"\n    if [ $(toVersion \"$current\") -ge $(toVersion \"$require\") ]; then\n        cd \"${PROJECT_DIR}/../\"\n        swiftformat .\n    else\n        echo \"SwiftFormat requires a SwiftFormat version of >= $require. You are on $current.\"\n        echo \"Please update using 'brew upgrade swiftformat'.\"\n        exit 1\n    fi\nelse\n    echo \"SwiftFormat does not exist, download from https://github.com/nicklockwood/SwiftFormat\"\n    exit 127\nfi\n";
 		};
 		83054A791F0C76460001C4B0 /* SwiftLint Script */ = {
 			isa = PBXShellScriptBuildPhase;

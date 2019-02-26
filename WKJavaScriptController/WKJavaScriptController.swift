@@ -122,7 +122,7 @@ open class WKJavaScriptController: NSObject {
         parseBridgeProtocol()
     }
     
-    private func protocolsAdoptedBy(`protocol`: Protocol) -> [Protocol] {
+    private func protocolsAdoptedBy(protocol: Protocol) -> [Protocol] {
         var protocols = [`protocol`]
         let protocolList = protocol_copyProtocolList(`protocol`, nil)
         if protocolList != nil,
