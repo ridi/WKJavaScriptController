@@ -9,6 +9,8 @@ import WKJavaScriptController
     func onSubmit(_ dictonary: [String: AnyObject], clear: JSBool)
     func onSubmit(_ email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String)
     func onCancel()
+    var isSubmitted: JSBool { get }
+    @objc optional func getErrorMessages(codes: [JSInt]) -> [String]
 }
 
 // Implement protocol.
@@ -30,6 +32,14 @@ extension ViewController: JavaScriptInterface {
     
     func onCancel() {
         NSLog("onCancel")
+    }
+    
+    var isSubmitted: JSBool {
+        return JSBool(true)
+    }
+    
+    func getErrorMessages(codes: [JSInt]) -> [String] {
+        return codes.map { "message\($0)" }
     }
 }
 

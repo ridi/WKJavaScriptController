@@ -12,7 +12,7 @@ function submit() {
     if (isChecked('input_json')) {
         native.onSubmit(values);
     } else if (isChecked('input_literal')) {
-        native.onSubmitWithFirstnameAndLastnameAndAddress1AndAddress2AndZipcodeAndPhonenumber(values['mail'], values['first_name'], values['last_name'], values['address_line_1'], values['address_line_2'], parseInt(values['zip_code']), values['phone_number']);
+        native.onSubmitWithFirstnameAndLastnameAndAddress1AndAddress2AndZipcodeAndPhonenumber(values['mail'], values['first_name'], values['last_name'], values['address_line_1'], values['address_line_2'], parseInt(values['zip_code']), `${values['phone_number']}`);
     }
 }
 

@@ -19,6 +19,8 @@
 
 /* Begin PBXFileReference section */
 		272FAEE1CFFC059EDAA9D22F /* Pods_WKJavaScriptController_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WKJavaScriptController_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A34D7D622277CB800250021 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
+		2A34D7D722277CC200250021 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
 		2CC90156977464A015EF3DCC /* Pods-WKJavaScriptController-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WKJavaScriptController-Demo.debug.xcconfig"; path = "Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		83D5383F1E2C960D00E42B6A /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		83D538411E2C978000E42B6A /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
@@ -65,6 +67,8 @@
 		83FA358C1E2C5C6900A6B171 /* WKJavaScriptController-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				2A34D7D622277CB800250021 /* README.md */,
+				2A34D7D722277CC200250021 /* CHANGELOG.md */,
 				83FA358D1E2C5C6900A6B171 /* AppDelegate.swift */,
 				83FA358F1E2C5C6900A6B171 /* ViewController.swift */,
 				83FA35911E2C5C6900A6B171 /* Main.storyboard */,

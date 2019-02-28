@@ -7,7 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-* None.
+### Added
+
+* Support native return to JavaScript as [Promise](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+* Add `logEnabled` property. (default: `true`)
+* Add `callbackTimeout` property. (default: `10`)
+
+### Changed
+
+* Rename `shouldSafeMethodCall` to `ignoreMethodCallWhenReceivedNull`.
+* Rename `shouldConvertJSONString` to `convertsToDictionaryWhenReceivedJsonString`.
+
+### Fixed
+
+* Fix an issue where string composed of numbers were cast to `JSInt` by parsing top-level objects as `JSONSerialization` with `allowFragments` read option.
 
 ## [1.2.0 (2019-02-26)]
 
@@ -70,7 +83,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 
 * Add method invocation notification.
-* Add `shouldSafeMethodCall` option.
+* Add `shouldSafeMethodCall` property.
 
 ## [1.1.0 (2017-01-18)]
 

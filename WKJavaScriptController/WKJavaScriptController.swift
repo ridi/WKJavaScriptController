@@ -5,6 +5,7 @@ private var javaScriptControllerKey: UInt8 = 0
 public extension WKWebView {
     var javaScriptController: WKJavaScriptController? {
         set {
+            newValue?.webView = self
             objc_setAssociatedObject(self, &javaScriptControllerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
@@ -19,7 +20,7 @@ public extension WKWebView {
     //     }
     func prepareForJavaScriptController() {
         if let controller = javaScriptController,
-            controller.needsInject,
+            controller.isInjectRequired,
             configuration.preferences.javaScriptEnabled {
                 controller.injectTo(configuration.userContentController)
         }
@@ -29,8 +30,12 @@ public extension WKWebView {
 open class JSValueType: NSObject {
     fileprivate var _value: NSNumber
     
-    fileprivate init(value: AnyObject) {
-        _value = value as! NSNumber
+    fileprivate init(_ number: NSNumber) {
+        _value = number
+    }
+    
+    fileprivate func toString() -> String {
+        return _value.stringValue
     }
 }
 
@@ -38,17 +43,29 @@ open class JSBool: JSValueType {
     open var value: Bool {
         return _value.boolValue
     }
+    
+    public convenience init(_ value: Bool) {
+        self.init(value as NSNumber)
+    }
 }
 
 open class JSInt: JSValueType {
     open var value: Int {
         return _value.intValue
     }
+    
+    public convenience init(_ value: Int) {
+        self.init(value as NSNumber)
+    }
 }
 
 open class JSFloat: JSValueType {
     open var value: Float {
         return _value.floatValue
+    }
+    
+    public convenience init(_ value: Float) {
+        self.init(value as NSNumber)
     }
 }
 
@@ -58,34 +75,58 @@ public extension Notification.Name {
 }
 
 open class WKJavaScriptController: NSObject {
-    // If true, do not allow NSNull(If passed undefined in JavaScript) for method arguments.
-    // That is, if get NSNull as arguments, do not call method.
-    open var shouldSafeMethodCall = true
+    // If true, do not allow NSNull(when `undefined` or `null` passed from JavaScript) for method arguments.
+    // That is, if receive NSNull as an argument, method call ignored.
+    open var ignoreMethodCallWhenReceivedNull = true
     
-    // If true, converts to dictionary when json string is received as an argument.
-    open var shouldConvertJSONString = true
+    @available(*, deprecated, renamed: "ignoreMethodCallWhenReceivedNull")
+    open var shouldSafeMethodCall = true {
+        willSet {
+            ignoreMethodCallWhenReceivedNull = newValue
+        }
+    }
+    
+    open var convertsToDictionaryWhenReceivedJsonString = true
+    
+    @available(*, deprecated, renamed: "convertsToDictionaryWhenReceivedJsonString")
+    open var shouldConvertJSONString = true {
+        willSet {
+            convertsToDictionaryWhenReceivedJsonString = newValue
+        }
+    }
+    
+    open var callbackTimeout: TimeInterval = 10 {
+        didSet {
+            isInjectRequired = true
+        }
+    }
+    
+    open var logEnabled = true
     
     private let bridgeProtocol: Protocol
     private let name: String
-    fileprivate weak var target: AnyObject?
+    private weak var target: AnyObject?
     
     // User script that will use the bridge.
     private var userScripts = [WKUserScript]()
     
-    fileprivate var bridgeList = [MethodBridge]()
+    fileprivate weak var webView: WKWebView?
     
-    fileprivate var needsInject = true
+    fileprivate var bridges = [MethodBridge]()
+    
+    fileprivate var isInjectRequired = true
     
     fileprivate class MethodBridge {
-        fileprivate var nativeSelector: Selector
-        fileprivate var extendJsSelector: Bool // If true, use ObjC style naming.
+        var nativeSelector: Selector
+        var isExtendJsSelector: Bool // If true, use ObjC style naming.
+        var isReturnRequired: Bool
         
-        fileprivate var jsSelector: String {
+        var jsSelector: String {
             let selector = NSStringFromSelector(nativeSelector)
             let components = selector.components(separatedBy: ":")
             if components.isEmpty {
                 return selector
-            } else if extendJsSelector {
+            } else if isExtendJsSelector {
                 var selector = ""
                 for (index, component) in components.enumerated() {
                     if component.isEmpty {
@@ -104,13 +145,26 @@ open class WKJavaScriptController: NSObject {
             }
         }
         
-        fileprivate var argumentLength: Int {
+        var argumentCount: Int {
             return max(NSStringFromSelector(nativeSelector).components(separatedBy: ":").count - 1, 0)
         }
         
-        fileprivate init(nativeSelector selector: Selector) {
+        init(nativeSelector selector: Selector) {
             nativeSelector = selector
-            extendJsSelector = false
+            isExtendJsSelector = false
+            isReturnRequired = false
+        }
+    }
+    
+    fileprivate enum ReserveKeyword: String {
+        case _createUUID
+        case _callbackList
+        case _addCallback
+        case _cancel
+        case _cancelAll
+        
+        static var all: [ReserveKeyword] {
+            return [._createUUID, ._callbackList, ._addCallback, ._cancel, ._cancelAll]
         }
     }
     
@@ -143,7 +197,7 @@ open class WKJavaScriptController: NSObject {
                 let methodList = protocol_copyMethodDescriptionList(`protocol`, isRequired, isInstance, nil)
                 if methodList != nil,
                     var list = Optional(methodList) {
-                        let limit = argumentLengthLimit
+                        let limit = argumentCountLimit
                         while list?.pointee.name != nil {
                             defer { list = list?.successor() }
                             
@@ -167,18 +221,19 @@ open class WKJavaScriptController: NSObject {
                             // Q: An unsigned long long   ^type: A pointer to type
                             // f: A float                 ?: An unknown type (among other things, this code is used for function pointers)
                             // d: A double
-                            if !signature.hasPrefix("v") {
-                                log("Can not receive native return in JavaScript, so it was excluded. (selector: \(selector))")
+                            if signature.range(of: "^[v@]", options: .regularExpression) == nil {
+                                log("It has an unsupported return type, so it was excluded. (selector: \(selector))")
+                                log("Allowed return types are Void, String, Array, Dictionary, JSBool, JSInt, JSFloat and NSNull.")
                                 continue
                             }
                             
                             if signature.range(of: "[cC#\\[\\{\\(b\\^\\?]", options: .regularExpression) != nil {
                                 log("It has an unsupported reference type as arguments, so it was excluded. (selector: \(selector))")
-                                log("Allowed reference types are NSNumber, NSString, NSDate, NSArray, NSDictionary, and NSNull.")
+                                log("Allowed reference types are String, Date, Array, Dictionary, NSNumber and NSNull.")
                                 continue
                             }
                             
-                            // Value types of Swift can't be used. because method call is based on ObjC.
+                            // Swift value types can't be used. because method call is based on ObjC.
                             if signature.range(of: "[iIsSlLqQfdB]", options: .regularExpression) != nil {
                                 log("It has an unsupported value type as arguments, so it was excluded. (selector: \(selector))")
                                 log("Allowed value types are JSBool, JSInt and JSFloat.")
@@ -186,21 +241,30 @@ open class WKJavaScriptController: NSObject {
                             }
                             
                             let bridge = MethodBridge(nativeSelector: selector)
-                            if bridge.argumentLength > limit {
+                            if bridge.argumentCount > limit {
                                 log("Argument length is longer than \(limit), so it was excluded. (selector: \(bridge.nativeSelector))")
                                 continue
                             }
                             
                             // Using ObjC style naming if have a method with the same name.
-                            let list = bridgeList.filter { $0.jsSelector == bridge.jsSelector }
+                            let list = bridges.filter { $0.jsSelector == bridge.jsSelector }
                             if !list.isEmpty {
-                                bridge.extendJsSelector = true
+                                bridge.isExtendJsSelector = true
                             }
                             for bridge in list {
-                                bridge.extendJsSelector = true
+                                bridge.isExtendJsSelector = true
                             }
                             
-                            bridgeList.append(bridge)
+                            if signature.hasPrefix("@") {
+                                bridge.isReturnRequired = true
+                            }
+                            
+                            if let keyword = ReserveKeyword.all.first(where: { bridge.jsSelector == $0.rawValue }) {
+                                log("Cannot use the keyword '\(keyword)' as a method name, so it was excluded. (selector: \(bridge.nativeSelector))")
+                                continue
+                            }
+                            
+                            bridges.append(bridge)
                             log("Parsed: \(isRequired ? "" : "Optional ")\(bridge.nativeSelector) -> \(bridge.jsSelector)")
                         }
                         free(methodList)
@@ -217,43 +281,99 @@ open class WKJavaScriptController: NSObject {
             userContentController.addUserScript(userScript)
         }
         userContentController.addUserScript(bridgeScript(forMainFrameOnly))
-        for bridge in bridgeList {
+        for bridge in bridges {
             userContentController.removeScriptMessageHandler(forName: bridge.jsSelector)
             userContentController.add(self, name: bridge.jsSelector)
         }
-        needsInject = false
+        isInjectRequired = false
     }
     
     private func bridgeScript(_ forMainFrameOnly: Bool) -> WKUserScript {
-        var source = "window.\(name) = {"
-        for bridge in bridgeList {
-            source += "\(bridge.jsSelector): function() { window.webkit.messageHandlers.\((bridge.jsSelector)).postMessage(Array.prototype.slice.call(arguments)); },"
+        var source = """
+            window.\(name) = {
+                \(ReserveKeyword._createUUID): function() {
+                    const s4 = () => ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+                    return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+                },
+                \(ReserveKeyword._cancel): function(id, resaon) {
+                    const callback = this.\(ReserveKeyword._callbackList)[id];
+                    resaon = resaon || new Error(`Callback cancelled. (id: ${id})`);
+                    callback.cancel = new Date();
+                    callback.reject(resaon);
+                    clearTimeout(callback.timer);
+                },
+                \(ReserveKeyword._cancelAll): function() {
+                    Object.getOwnPropertyNames(this.\(ReserveKeyword._callbackList)).forEach((key) => {
+                        this.\(ReserveKeyword._cancel)(key);
+                    });
+                },
+                \(ReserveKeyword._addCallback): function(id, name, resolve, reject) {
+                    const timer = setTimeout(() => {
+                        this.\(ReserveKeyword._cancel)(id, new Error(`Callback timeout. (id: ${id})`));
+                    }, \(callbackTimeout * 1000));
+                    \(name).\(ReserveKeyword._callbackList)[id] = { name, resolve, reject, timer, start: new Date() };
+                },
+                \(ReserveKeyword._callbackList): {},
+            """
+        var readOnlyProperties = [MethodBridge]()
+        for bridge in bridges {
+            if bridge.argumentCount == 0, bridge.isReturnRequired {
+                readOnlyProperties.append(bridge)
+                continue
+            }
+            source += """
+                \(bridge.jsSelector): function() {
+                    const id = \(name).\(ReserveKeyword._createUUID)();
+                    const args = Array.from(arguments).concat(id);
+                    return new Promise((resolve, reject) => {
+                        this.\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
+                        webkit.messageHandlers.\((bridge.jsSelector)).postMessage(args);
+                    });
+                },
+                """
         }
         source += "};"
+        for bridge in readOnlyProperties {
+            source += """
+                Object.defineProperty(\(name), '\(bridge.jsSelector)', {
+                    key: '\(bridge.jsSelector)',
+                    get: function get() {
+                        const id = \(name).\(ReserveKeyword._createUUID)();
+                        return new Promise((resolve, reject) => {
+                            this.\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
+                            webkit.messageHandlers.\((bridge.jsSelector)).postMessage([id]);
+                        });
+                    },
+                });
+                """
+        }
         return WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: forMainFrameOnly)
     }
     
     fileprivate func log(_ message: String) {
-        NSLog("[WKJavaScriptController] \(message)")
+        if logEnabled {
+            NSLog("[WKJavaScriptController] \(message)")
+        }
     }
     
     open func addUserScript(_ userScript: WKUserScript) {
         userScripts.append(userScript)
-        needsInject = true
+        isInjectRequired = true
     }
     
     open func removeAllUserScripts() {
         userScripts.removeAll()
-        needsInject = true
+        isInjectRequired = true
     }
 }
 
 // MARK: - WKScriptMessageHandler
 
-private let argumentLengthLimit = 10
+private let argumentCountLimit = 10
 
 private typealias Target = AnyObject
 private typealias Arg = AnyObject
+private typealias Result = AnyObject
 private typealias Invocation0 = @convention(c) (Target, Selector) -> Void
 private typealias Invocation1 = @convention(c) (Target, Selector, Arg) -> Void
 private typealias Invocation2 = @convention(c) (Target, Selector, Arg, Arg) -> Void
@@ -265,48 +385,88 @@ private typealias Invocation7 = @convention(c) (Target, Selector, Arg, Arg, Arg,
 private typealias Invocation8 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg) -> Void
 private typealias Invocation9 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg) -> Void
 private typealias Invocation10 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg) -> Void
+private typealias XInvocation0 = @convention(c) (Target, Selector) -> Result
+private typealias XInvocation1 = @convention(c) (Target, Selector, Arg) -> Result
+private typealias XInvocation2 = @convention(c) (Target, Selector, Arg, Arg) -> Result
+private typealias XInvocation3 = @convention(c) (Target, Selector, Arg, Arg, Arg) -> Result
+private typealias XInvocation4 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg) -> Result
+private typealias XInvocation5 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg) -> Result
+private typealias XInvocation6 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg) -> Result
+private typealias XInvocation7 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg, Arg) -> Result
+private typealias XInvocation8 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg) -> Result
+private typealias XInvocation9 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg) -> Result
+private typealias XInvocation10 = @convention(c) (Target, Selector, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg, Arg) -> Result
 
 extension WKJavaScriptController: WKScriptMessageHandler {
+    private func cast(_ arg: Arg) -> Arg {
+        if let number = arg as? NSNumber,
+            let type = String(cString: number.objCType, encoding: .utf8) {
+                switch type {
+                case "c", "C", "B":
+                    return JSBool(number)
+                default:
+                    if number.stringValue.range(of: ".") != nil {
+                        return JSFloat(number)
+                    } else if number.stringValue == "nan" {
+                        return JSInt(NSNumber(value: 0 as Int))
+                    }
+                    return JSInt(number)
+                }
+        } else if convertsToDictionaryWhenReceivedJsonString,
+            let string = arg as? String,
+            let data = string.data(using: .utf8),
+            let json = try? JSONSerialization.jsonObject(with: data, options: []) {
+                return cast(json as Arg)
+        } else if let array = arg as? [AnyObject] {
+            return array.map({ value -> Arg in cast(value) }) as Arg
+        } else if let dictionary = arg as? [String: AnyObject] {
+            return dictionary.mapValues({ value -> Arg in cast(value) }) as Arg
+        }
+        return arg
+    }
+    
+    private func stringFrom(_ result: Result!) -> String {
+        if result != nil {
+            if let jsBool = result as? JSBool {
+                return stringFrom(jsBool.value as Result)
+            } else if let bool = result as? Bool {
+                return bool ? "true" : "false"
+            } else if let jsValueType = result as? JSValueType {
+                return jsValueType.toString()
+            } else if let string = result as? String {
+                return "'\(string)'"
+            } else if let array = result as? [AnyObject] {
+                return "[\(array.map({ stringFrom($0 as Result) }).joined(separator: ","))]"
+            } else if let dictionary = result as? [String: AnyObject] {
+                return "{\(dictionary.map { "\(stringFrom($0 as Result)):\(stringFrom($1 as Result))" }.joined(separator: ","))}"
+            } else if let date = result as? Date {
+                return "new Date(\(date.timeIntervalSince1970 * 1000))"
+            } else if result is NSNull {
+                return "undefined"
+            }
+            return String(describing: result)
+        }
+        return "undefined"
+    }
+    
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let target = target,
-            let args = message.body as? [Arg],
-            let bridge = bridgeList.first(where: { $0.jsSelector == message.name }) else {
+            var args = message.body as? [Arg],
+            let bridge = bridges.first(where: { $0.jsSelector == message.name }) else {
                 return
         }
         
-        if args.count != bridge.argumentLength {
-            log("Argument length is different. (received: \(args.count), required: \(bridge.argumentLength))")
+        let callbackId = args.last as! String
+        args = Array(args.dropLast())
+        
+        if args.count != bridge.argumentCount {
+            log("Argument length is different. (selector: \(bridge.jsSelector), received: \(args.count), required: \(bridge.argumentCount))")
             return
         }
         
         guard let method = class_getInstanceMethod(target.classForCoder, bridge.nativeSelector) else {
             log("An unimplemented method has been called. (selector: \(bridge.nativeSelector))")
             return
-        }
-        
-        let imp = method_getImplementation(method)
-        
-        func cast(_ arg: Arg) -> Arg {
-            if let number = arg as? NSNumber,
-                let type = String(cString: number.objCType, encoding: .utf8) {
-                    switch type {
-                    case "c", "C", "B":
-                        return JSBool(value: number)
-                    default:
-                        if number.stringValue.range(of: ".") != nil {
-                            return JSFloat(value: number)
-                        } else if number.stringValue == "nan" {
-                            return JSInt(value: NSNumber(value: 0 as Int))
-                        }
-                        return JSInt(value: number)
-                    }
-            } else if shouldConvertJSONString,
-                let string = arg as? String,
-                let data = string.data(using: .utf8),
-                let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
-                    return json as Arg
-            }
-            return arg
         }
         
         let notificationCenter = NotificationCenter.default
@@ -317,7 +477,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         ] as [String: Any]
         notificationCenter.post(name: .WKJavaScriptControllerWillMethodInvocation, object: nil, userInfo: userInfo)
         
-        if shouldSafeMethodCall {
+        if ignoreMethodCallWhenReceivedNull {
             for arg in args {
                 if arg is NSNull {
                     let userInfo = [
@@ -332,43 +492,88 @@ extension WKJavaScriptController: WKScriptMessageHandler {
             }
         }
         
-        switch bridge.argumentLength {
+        let imp = method_getImplementation(method)
+        var result: Result!
+        switch bridge.argumentCount {
         case 0:
-            let method = unsafeBitCast(imp, to: Invocation0.self)
-            method(target, bridge.nativeSelector)
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation0.self)(target, bridge.nativeSelector)
+            } else {
+                unsafeBitCast(imp, to: Invocation0.self)(target, bridge.nativeSelector)
+            }
         case 1:
-            let method = unsafeBitCast(imp, to: Invocation1.self)
-            method(target, bridge.nativeSelector, cast(args[0]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation1.self)(target, bridge.nativeSelector, cast(args[0]))
+            } else {
+                unsafeBitCast(imp, to: Invocation1.self)(target, bridge.nativeSelector, cast(args[0]))
+            }
         case 2:
-            let method = unsafeBitCast(imp, to: Invocation2.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation2.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]))
+            } else {
+                unsafeBitCast(imp, to: Invocation2.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]))
+            }
         case 3:
-            let method = unsafeBitCast(imp, to: Invocation3.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation3.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]))
+            } else {
+                unsafeBitCast(imp, to: Invocation3.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]))
+            }
         case 4:
-            let method = unsafeBitCast(imp, to: Invocation4.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation4.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]))
+            } else {
+                unsafeBitCast(imp, to: Invocation4.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]))
+            }
         case 5:
-            let method = unsafeBitCast(imp, to: Invocation5.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation5.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]))
+            } else {
+                unsafeBitCast(imp, to: Invocation5.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]))
+            }
         case 6:
-            let method = unsafeBitCast(imp, to: Invocation6.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation6.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]))
+            } else {
+                unsafeBitCast(imp, to: Invocation6.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]))
+            }
         case 7:
-            let method = unsafeBitCast(imp, to: Invocation7.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation7.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]))
+            } else {
+                unsafeBitCast(imp, to: Invocation7.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]))
+            }
         case 8:
-            let method = unsafeBitCast(imp, to: Invocation8.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation8.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]))
+            } else {
+                unsafeBitCast(imp, to: Invocation8.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]))
+            }
         case 9:
-            let method = unsafeBitCast(imp, to: Invocation9.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]))
-        case argumentLengthLimit:
-            let method = unsafeBitCast(imp, to: Invocation10.self)
-            method(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]), cast(args[9]))
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation9.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]))
+            } else {
+                unsafeBitCast(imp, to: Invocation9.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]))
+            }
+        case argumentCountLimit:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation10.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]), cast(args[9]))
+            } else {
+                unsafeBitCast(imp, to: Invocation10.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]), cast(args[9]))
+            }
         default:
             // Not called.
             break
         }
+        
+        let script = """
+            (() => {
+                const callback = \(name).\(ReserveKeyword._callbackList)['\(callbackId)'];
+                callback.end = new Date();
+                callback.resolve(\(bridge.isReturnRequired ? stringFrom(result) : ""));
+                clearTimeout(callback.timer);
+            })();
+            """
+        webView?.evaluateJavaScript(script, completionHandler: nil)
     }
 }
