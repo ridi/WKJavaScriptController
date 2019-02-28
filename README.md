@@ -76,7 +76,7 @@ extension ViewController: JavaScriptInterface {
     }
     
     func getErrorMessages(codes: [JSInt]) -> [String] {
-        return ["dummy1", "dummy2", "dummy3"]
+        return codes.map { "message\($0)" }
     }
 }
 
