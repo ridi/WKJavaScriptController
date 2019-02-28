@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+* None.
+
+## [2.0.0 (2019-02-28)]
+
 ### Added
 
 * Support native return to JavaScript as [Promise](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise).
@@ -105,18 +109,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * First release.
 
-[Unreleased]: https://github.com/ridi/cocoa-oauth2/compare/1.2.0...HEAD
-[1.2.0 (2019-02-26)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.9...1.2.0
-[1.1.9 (2018-07-31)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.8...1.1.9
-[1.1.8 (2017-11-29)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.7...1.1.8
-[1.1.7 (2017-09-26)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.6...1.1.7
-[1.1.6 (2017-07-05)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.5...1.1.6
-[1.1.5 (2017-02-08)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.4...1.1.5
-[1.1.4 (2017-02-05)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.3...1.1.4
-[1.1.3 (2017-01-26)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.2...1.1.3
-[1.1.2 (2017-01-26)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.1...1.1.2
-[1.1.1 (2017-01-26)]: https://github.com/ridi/cocoa-oauth2/compare/1.1.0...1.1.1
-[1.1.0 (2017-01-18)]: https://github.com/ridi/cocoa-oauth2/compare/1.0.2...1.1.0
-[1.0.2 (2017-01-18)]: https://github.com/ridi/cocoa-oauth2/compare/1.0.1...1.0.2
-[1.0.1 (2017-01-18)]: https://github.com/ridi/cocoa-oauth2/compare/1.0.0...1.0.1
-[1.0.0 (2017-01-17)]: https://github.com/ridi/cocoa-oauth2/compare/8065709...1.0.0
+[Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.0.0...HEAD
+[2.0.0 (2019-02-28)]: https://github.com/ridi/WKJavaScriptController/compare/1.2.0...2.0.0
+[1.2.0 (2019-02-26)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.9...1.2.0
+[1.1.9 (2018-07-31)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.8...1.1.9
+[1.1.8 (2017-11-29)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.7...1.1.8
+[1.1.7 (2017-09-26)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.6...1.1.7
+[1.1.6 (2017-07-05)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.5...1.1.6
+[1.1.5 (2017-02-08)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.4...1.1.5
+[1.1.4 (2017-02-05)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.3...1.1.4
+[1.1.3 (2017-01-26)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.2...1.1.3
+[1.1.2 (2017-01-26)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.1...1.1.2
+[1.1.1 (2017-01-26)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.0...1.1.1
+[1.1.0 (2017-01-18)]: https://github.com/ridi/WKJavaScriptController/compare/1.0.2...1.1.0
+[1.0.2 (2017-01-18)]: https://github.com/ridi/WKJavaScriptController/compare/1.0.1...1.0.2
+[1.0.1 (2017-01-18)]: https://github.com/ridi/WKJavaScriptController/compare/1.0.0...1.0.1
+[1.0.0 (2017-01-17)]: https://github.com/ridi/WKJavaScriptController/compare/8065709...1.0.0
