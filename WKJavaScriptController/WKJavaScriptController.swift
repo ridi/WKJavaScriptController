@@ -34,7 +34,7 @@ open class JSValueType: NSObject {
         _value = number
     }
     
-    fileprivate func toString() -> String {
+    open override var description: String {
         return _value.stringValue
     }
 }
@@ -432,7 +432,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
             } else if let bool = result as? Bool {
                 return bool ? "true" : "false"
             } else if let jsValueType = result as? JSValueType {
-                return jsValueType.toString()
+                return "\(jsValueType)"
             } else if let string = result as? String {
                 return "'\(string)'"
             } else if let array = result as? [AnyObject] {
