@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * None.
 
+## [2.0.1 (2019-03-06)]
+
+### Changed
+
+* Change `JSValueType` description to string value.
+
 ## [2.0.0 (2019-02-28)]
 
 ### Added
@@ -109,7 +115,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * First release.
 
-[Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.0.0...HEAD
+[Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.0.1...HEAD
+[2.0.1 (2019-03-06)]: https://github.com/ridi/WKJavaScriptController/compare/2.0.0...2.0.1
 [2.0.0 (2019-02-28)]: https://github.com/ridi/WKJavaScriptController/compare/1.2.0...2.0.0
 [1.2.0 (2019-02-26)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.9...1.2.0
 [1.1.9 (2018-07-31)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.8...1.1.9
