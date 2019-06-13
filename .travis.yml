@@ -11,5 +11,5 @@ notifications:
   email: false
   slack:
     rooms:
-      - 'rididev:KMm0EBQYY1ThicCJo0CwYb5U'
+      secure: d/IMiWtgP0vY6lEVSJSj9AapZVlvhPdo5+JtTHKv2TGOOSUkIPg78wMvlMIc7hq7XdXguTnLpGy9O37Xl9AlFvCELMdcqE86kwmqEN/eTvSNSLN0S24TVhq6LEEO/eLGPgLud/xwhOMYZNMdVicpfQR4Ro99MrbMtSEIplhmclljN2MwHkWvnpPNXPorv1Kv6gOGQa4z927/VOjgpbFzq0liApt41Oide5hODaI62041kpBT4VY5imTlYiSrZTXMNylSGP0wOVfNExUTkR1+yOs9e6vXrIGGqmbNccoKTnUVtPhlAAYCW+UV92XNnVPA8H8rchml5dJIM4n1ypqinRJUDwMIquXPV2VNlgC4ul/+w+jm7fF+n93suc1K+4ik+WU9xDoG17fIEgDeW3QqZNfFFruMvdxrF2+5jqcv5NlWE8lBwEx3AbZu5aXa/tVhQydshBZOetkL/+i+8aNnhxQIPHm1tw7x+Aok6KfA6AwXjWqVAeoRoDxD8s7fFiacFBwPbi1jwhSljGmMAUjUGD+sUeYremB4sfEZfJU9OLwfO3Z+Fg44QWYQQGKBp/2wQ36qab6VNJtxKgmm92hD7lc/mB03V42a0uOiJyg9gD+MICDankovGdVCWv1WYdOBaa36NEjD/zuEm+Qr+uHhhq6umpdnj43b4gsunQVWwW8=
     on_success: change
