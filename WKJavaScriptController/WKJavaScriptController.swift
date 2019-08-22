@@ -296,20 +296,20 @@ open class WKJavaScriptController: NSObject {
                     return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
                 },
                 \(ReserveKeyword._cancel): function(id, resaon) {
-                    const callback = this.\(ReserveKeyword._callbackList)[id];
+                    const callback = \(name).\(ReserveKeyword._callbackList)[id];
                     resaon = resaon || new Error(`Callback cancelled. (id: ${id})`);
                     callback.cancel = new Date();
                     callback.reject(resaon);
                     clearTimeout(callback.timer);
                 },
                 \(ReserveKeyword._cancelAll): function() {
-                    Object.getOwnPropertyNames(this.\(ReserveKeyword._callbackList)).forEach((key) => {
-                        this.\(ReserveKeyword._cancel)(key);
+                    Object.getOwnPropertyNames(\(name).\(ReserveKeyword._callbackList)).forEach((key) => {
+                        \(name).\(ReserveKeyword._cancel)(key);
                     });
                 },
                 \(ReserveKeyword._addCallback): function(id, name, resolve, reject) {
                     const timer = setTimeout(() => {
-                        this.\(ReserveKeyword._cancel)(id, new Error(`Callback timeout. (id: ${id})`));
+                        \(name).\(ReserveKeyword._cancel)(id, new Error(`Callback timeout. (id: ${id})`));
                     }, \(callbackTimeout * 1000));
                     \(name).\(ReserveKeyword._callbackList)[id] = { name, resolve, reject, timer, start: new Date() };
                 },
@@ -326,7 +326,7 @@ open class WKJavaScriptController: NSObject {
                     const id = \(name).\(ReserveKeyword._createUUID)();
                     const args = Array.from(arguments).concat(id);
                     return new Promise((resolve, reject) => {
-                        this.\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
+                        \(name).\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
                         webkit.messageHandlers.\((bridge.jsSelector)).postMessage(args);
                     });
                 },
@@ -340,7 +340,7 @@ open class WKJavaScriptController: NSObject {
                     get: function get() {
                         const id = \(name).\(ReserveKeyword._createUUID)();
                         return new Promise((resolve, reject) => {
-                            this.\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
+                            \(name).\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
                             webkit.messageHandlers.\((bridge.jsSelector)).postMessage([id]);
                         });
                     },
