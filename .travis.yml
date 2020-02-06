@@ -2,6 +2,7 @@ language: objective-c
 osx_image: xcode10
 
 install:
+  - brew install swiftlint swiftformat
   - cd ./Demo; pod install
 
 script:
