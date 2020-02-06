@@ -2,7 +2,7 @@ language: objective-c
 osx_image: xcode10
 
 install:
-  - cd ./WKJavaScriptController-Demo; pod install
+  - cd ./Demo; pod install
 
 script:
   - xcodebuild -workspace WKJavaScriptController-Demo.xcodeproj/project.xcworkspace -scheme WKJavaScriptController-Demo -sdk "iphonesimulator" -destination "platform=iOS Simulator,name=iPhone 7,OS=11.4" -configuration Debug ONLY_ACTIVE_ARCH=NO | xcpretty -c
