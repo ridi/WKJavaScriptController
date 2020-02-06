@@ -7,6 +7,6 @@ Pod::Spec.new do |s|
   s.license      = 'MIT'
   s.ios.deployment_target = '8.0'
   s.source       = { :git => 'https://github.com/ridi/WKJavaScriptController.git', :tag => s.version }
-  s.source_files = 'WKJavaScriptController/WKJavaScriptController.swift'
+  s.source_files = 'Sources/WKJavaScriptController/WKJavaScriptController.swift'
   s.frameworks   = 'Foundation', 'WebKit'
 end
