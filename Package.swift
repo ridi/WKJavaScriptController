@@ -24,5 +24,8 @@ let package = Package(
         .target(
             name: "WKJavaScriptController",
             dependencies: []),
+    ],
+    swiftLanguageVersions: [
+        .v4_2
     ]
 )
