@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * None.
 
+## [2.0.2 (2020-02-06)]
+
+### Added
+
+* Support Swift Package Manager.
+
 ## [2.0.1 (2019-03-06)]
 
 ### Changed
