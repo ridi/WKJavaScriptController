@@ -3,11 +3,11 @@
 reporter: "xcode"
 
 included:
-  - WKJavaScriptController
-  - WKJavaScriptController-Demo
+  - Sources
+  - Demo
 
 excluded:
-  - WKJavaScriptController-Demo/Pods
+  - Demo/Pods
 
 disabled_rules:
   - block_based_kvo # Prefer the new block based KVO API with keypaths when using Swift 3.2 or later.
