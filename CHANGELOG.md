@@ -121,7 +121,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 * First release.
 
-[Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.0.1...HEAD
+[Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.0.2...HEAD
+[2.0.2 (2020-02-06)]: https://github.com/ridi/WKJavaScriptController/compare/2.0.1...2.0.2
 [2.0.1 (2019-03-06)]: https://github.com/ridi/WKJavaScriptController/compare/2.0.0...2.0.1
 [2.0.0 (2019-02-28)]: https://github.com/ridi/WKJavaScriptController/compare/1.2.0...2.0.0
 [1.2.0 (2019-02-26)]: https://github.com/ridi/WKJavaScriptController/compare/1.1.9...1.2.0
