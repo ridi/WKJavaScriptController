@@ -3,44 +3,24 @@
 Calling native code from Javascript in iOS likes JavascriptInterface in Android.
 
 [![Build Status](https://travis-ci.com/ridi/WKJavaScriptController.svg?branch=master)](https://travis-ci.com/ridi/WKJavaScriptController)
-[![CocoaPods Compatible](https://img.shields.io/cocoapods/v/WKJavaScriptController.svg?style=flat)](https://cocoadocs.org/docsets/WKJavaScriptController)
-[![Platform](https://img.shields.io/cocoapods/p/WKJavaScriptController.svg?style=flat)](https://cocoadocs.org/docsets/WKJavaScriptController)
-[![License](https://img.shields.io/cocoapods/l/WKJavaScriptController.svg?style=flat)](https://cocoadocs.org/docsets/WKJavaScriptController)
 
 ## Requirements
 
-- Xcode 10.0+
-- Swift 4.2
+- Xcode 11.4+
+- Swift 5.2+
 - iOS8+
 
-(based on WKJavaScriptController 1.2.0+)
+(based on WKJavaScriptController 2.1.0+)
 
-## Installation
+## Installation with Swift Package Manager
 
-This library is distributed by [CocoaPods](https://cocoapods.org).
+Add the following to your `Package.swift`:
 
- CocoaPods is a dependency manager for Cocoa projects. You can install it with the following command:
-
-```
-$ gem install cocoapods
-```
-
-To integrate WKJavaScriptController into your Xcode project using CocoaPods, specify it in your Podfile:
-
-```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-platform :ios, '8.0'
-use_frameworks!
-
-target '<Target name in your project>' do
-    pod 'WKJavaScriptController'
-end
-```
-
-Then, run the following command:
-
-```
-$ pod install
+```swift
+dependencies: [
+  // ...
+  .package(url: "https://github.com/ridi/WKJavaScriptController.git"),
+]
 ```
 
 ## Usage

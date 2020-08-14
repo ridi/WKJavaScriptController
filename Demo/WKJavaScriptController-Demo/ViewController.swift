@@ -17,6 +17,7 @@ import WKJavaScriptController
 extension ViewController: JavaScriptInterface {
     func onSubmit(_ dictonary: [String: AnyObject]) {
         NSLog("onSubmit \(dictonary)")
+        isSubmitted = true
     }
     
     func onSubmit(_ dictonary: [String: AnyObject], clear: JSBool) {
@@ -24,27 +25,29 @@ extension ViewController: JavaScriptInterface {
         if clear.value {
             webView.evaluateJavaScript("clearAll()", completionHandler: nil)
         }
+        isSubmitted = true
     }
     
     func onSubmit(_ email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String) {
         NSLog("onSubmit \(email), \(firstName), \(lastName), \(address1), \(address2), \(zipCode.value), \(phoneNumber)")
+        isSubmitted = true
     }
     
     func onCancel() {
         NSLog("onCancel")
     }
     
-    var isSubmitted: JSBool {
-        return JSBool(true)
-    }
+    var isSubmitted: JSBool { JSBool(isSubmitted) }
     
     func getErrorMessages(codes: [JSInt]) -> [String] {
-        return codes.map { "message\($0)" }
+        codes.map { "message\($0)" }
     }
 }
 
 class ViewController: UIViewController {
     fileprivate var webView: WKWebView!
+
+    private var isSubmitted = false
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -70,9 +73,5 @@ class ViewController: UIViewController {
             webView.prepareForJavaScriptController() // Call prepareForJavaScriptController before initializing WKWebView or loading page.
             webView.loadHTMLString(htmlString, baseURL: Bundle.main.bundleURL)
         }
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return true
     }
 }

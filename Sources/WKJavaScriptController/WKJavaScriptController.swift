@@ -9,7 +9,7 @@ public extension WKWebView {
             objc_setAssociatedObject(self, &javaScriptControllerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         get {
-            return objc_getAssociatedObject(self, &javaScriptControllerKey) as? WKJavaScriptController
+            objc_getAssociatedObject(self, &javaScriptControllerKey) as? WKJavaScriptController
         }
     }
     
@@ -34,15 +34,11 @@ open class JSValueType: NSObject {
         _value = number
     }
     
-    open override var description: String {
-        return _value.stringValue
-    }
+    override open var description: String { _value.stringValue }
 }
 
 open class JSBool: JSValueType {
-    open var value: Bool {
-        return _value.boolValue
-    }
+    open var value: Bool { _value.boolValue }
     
     public convenience init(_ value: Bool) {
         self.init(value as NSNumber)
@@ -50,9 +46,7 @@ open class JSBool: JSValueType {
 }
 
 open class JSInt: JSValueType {
-    open var value: Int {
-        return _value.intValue
-    }
+    open var value: Int { _value.intValue }
     
     public convenience init(_ value: Int) {
         self.init(value as NSNumber)
@@ -60,9 +54,7 @@ open class JSInt: JSValueType {
 }
 
 open class JSFloat: JSValueType {
-    open var value: Float {
-        return _value.floatValue
-    }
+    open var value: Float { _value.floatValue }
     
     public convenience init(_ value: Float) {
         self.init(value as NSNumber)
@@ -146,7 +138,7 @@ open class WKJavaScriptController: NSObject {
         }
         
         var argumentCount: Int {
-            return max(NSStringFromSelector(nativeSelector).components(separatedBy: ":").count - 1, 0)
+            max(NSStringFromSelector(nativeSelector).components(separatedBy: ":").count - 1, 0)
         }
         
         init(nativeSelector selector: Selector) {
@@ -156,15 +148,21 @@ open class WKJavaScriptController: NSObject {
         }
     }
     
-    fileprivate enum ReserveKeyword: String {
-        case _createUUID
-        case _callbackList
-        case _addCallback
-        case _cancel
-        case _cancelAll
+    private enum ReserveKeyword: String {
+        case createUUID = "_createUUID"
+        case callbackList = "_callbackList"
+        case addCallback = "_addCallback"
+        case cancel = "_cancel"
+        case cancelAll = "_cancelAll"
         
         static var all: [ReserveKeyword] {
-            return [._createUUID, ._callbackList, ._addCallback, ._cancel, ._cancelAll]
+            [
+                .createUUID,
+                .callbackList,
+                .addCallback,
+                .cancel,
+                .cancelAll
+            ]
         }
     }
     
@@ -291,29 +289,29 @@ open class WKJavaScriptController: NSObject {
     private func bridgeScript(_ forMainFrameOnly: Bool) -> WKUserScript {
         var source = """
             window.\(name) = {
-                \(ReserveKeyword._createUUID): function() {
+                \(ReserveKeyword.createUUID): function() {
                     const s4 = () => ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
                     return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
                 },
-                \(ReserveKeyword._cancel): function(id, resaon) {
-                    const callback = \(name).\(ReserveKeyword._callbackList)[id];
+                \(ReserveKeyword.cancel): function(id, resaon) {
+                    const callback = \(name).\(ReserveKeyword.callbackList)[id];
                     resaon = resaon || new Error(`Callback cancelled. (id: ${id})`);
                     callback.cancel = new Date();
                     callback.reject(resaon);
                     clearTimeout(callback.timer);
                 },
-                \(ReserveKeyword._cancelAll): function() {
-                    Object.getOwnPropertyNames(\(name).\(ReserveKeyword._callbackList)).forEach((key) => {
-                        \(name).\(ReserveKeyword._cancel)(key);
+                \(ReserveKeyword.cancelAll): function() {
+                    Object.getOwnPropertyNames(\(name).\(ReserveKeyword.callbackList)).forEach((key) => {
+                        \(name).\(ReserveKeyword.cancel)(key);
                     });
                 },
-                \(ReserveKeyword._addCallback): function(id, name, resolve, reject) {
+                \(ReserveKeyword.addCallback): function(id, name, resolve, reject) {
                     const timer = setTimeout(() => {
-                        \(name).\(ReserveKeyword._cancel)(id, new Error(`Callback timeout. (id: ${id})`));
+                        \(name).\(ReserveKeyword.cancel)(id, new Error(`Callback timeout. (id: ${id})`));
                     }, \(callbackTimeout * 1000));
-                    \(name).\(ReserveKeyword._callbackList)[id] = { name, resolve, reject, timer, start: new Date() };
+                    \(name).\(ReserveKeyword.callbackList)[id] = { name, resolve, reject, timer, start: new Date() };
                 },
-                \(ReserveKeyword._callbackList): {},
+                \(ReserveKeyword.callbackList): {},
             """
         var readOnlyProperties = [MethodBridge]()
         for bridge in bridges {
@@ -323,10 +321,10 @@ open class WKJavaScriptController: NSObject {
             }
             source += """
                 \(bridge.jsSelector): function() {
-                    const id = \(name).\(ReserveKeyword._createUUID)();
+                    const id = \(name).\(ReserveKeyword.createUUID)();
                     const args = Array.from(arguments).concat(id);
                     return new Promise((resolve, reject) => {
-                        \(name).\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
+                        \(name).\(ReserveKeyword.addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
                         webkit.messageHandlers.\((bridge.jsSelector)).postMessage(args);
                     });
                 },
@@ -338,9 +336,9 @@ open class WKJavaScriptController: NSObject {
                 Object.defineProperty(\(name), '\(bridge.jsSelector)', {
                     key: '\(bridge.jsSelector)',
                     get: function get() {
-                        const id = \(name).\(ReserveKeyword._createUUID)();
+                        const id = \(name).\(ReserveKeyword.createUUID)();
                         return new Promise((resolve, reject) => {
-                            \(name).\(ReserveKeyword._addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
+                            \(name).\(ReserveKeyword.addCallback)(id, '\(bridge.jsSelector)', resolve, reject);
                             webkit.messageHandlers.\((bridge.jsSelector)).postMessage([id]);
                         });
                     },
@@ -350,7 +348,7 @@ open class WKJavaScriptController: NSObject {
         return WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: forMainFrameOnly)
     }
     
-    fileprivate func log(_ message: String) {
+    private func log(_ message: String) {
         if logEnabled {
             NSLog("[WKJavaScriptController] \(message)")
         }
@@ -405,7 +403,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
                 case "c", "C", "B":
                     return JSBool(number)
                 default:
-                    if number.stringValue.range(of: ".") != nil {
+                    if number.stringValue.contains(".") {
                         return JSFloat(number)
                     } else if number.stringValue == "nan" {
                         return JSInt(NSNumber(value: 0 as Int))
@@ -568,7 +566,7 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         
         let script = """
             (() => {
-                const callback = \(name).\(ReserveKeyword._callbackList)['\(callbackId)'];
+                const callback = \(name).\(ReserveKeyword.callbackList)['\(callbackId)'];
                 callback.end = new Date();
                 callback.resolve(\(bridge.isReturnRequired ? stringFrom(result) : ""));
                 clearTimeout(callback.timer);

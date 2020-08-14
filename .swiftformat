@@ -1,4 +1,4 @@
---exclude Demo/Pods
+--exclude Pods,Carthage,**/*.generated.swift
 --disable consecutiveSpaces,indent,isEmpty,redundantParens,strongOutlets,trailingClosures
 
 --allman false
@@ -8,6 +8,7 @@
 --comments indent
 --decimalgrouping ignore
 --elseposition same-line
+--empty void
 --header ignore
 --hexgrouping ignore
 --hexliteralcase lowercase
@@ -21,7 +22,11 @@
 --patternlet hoist
 --ranges no-space
 --semicolons never
+--self remove
+--selfrequired true
 --stripunusedargs closure-only
+--trailingclosures true
 --trimwhitespace nonblank-lines
 --wraparguments before-first
 --wrapcollections before-first
+--closingparen balanced

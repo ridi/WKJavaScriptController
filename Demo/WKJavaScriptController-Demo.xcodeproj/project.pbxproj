@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A2FA98024E26E44005FE611 /* WKJavaScriptController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2A2FA97E24E26E44005FE611 /* WKJavaScriptController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2A2FA98324E26E44005FE611 /* WKJavaScriptController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2FA97C24E26E44005FE611 /* WKJavaScriptController.framework */; };
+		2A2FA98424E26E44005FE611 /* WKJavaScriptController.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2FA97C24E26E44005FE611 /* WKJavaScriptController.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2A2FA98A24E26E57005FE611 /* WKJavaScriptController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A2FA98924E26E57005FE611 /* WKJavaScriptController.swift */; };
 		83D538401E2C960D00E42B6A /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 83D5383F1E2C960D00E42B6A /* index.html */; };
 		83D538421E2C978000E42B6A /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = 83D538411E2C978000E42B6A /* index.js */; };
 		83FA358E1E2C5C6900A6B171 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83FA358D1E2C5C6900A6B171 /* AppDelegate.swift */; };
@@ -14,14 +18,39 @@
 		83FA35931E2C5C6900A6B171 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83FA35911E2C5C6900A6B171 /* Main.storyboard */; };
 		83FA35951E2C5C6900A6B171 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83FA35941E2C5C6900A6B171 /* Assets.xcassets */; };
 		83FA35981E2C5C6900A6B171 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 83FA35961E2C5C6900A6B171 /* LaunchScreen.storyboard */; };
-		9C30B52454ECA3F3E3AEDF4E /* Pods_WKJavaScriptController_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 272FAEE1CFFC059EDAA9D22F /* Pods_WKJavaScriptController_Demo.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2A2FA98124E26E44005FE611 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83FA35821E2C5C6900A6B171 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2A2FA97B24E26E44005FE611;
+			remoteInfo = WKJavaScriptController;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2A2FA98824E26E44005FE611 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2A2FA98424E26E44005FE611 /* WKJavaScriptController.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		272FAEE1CFFC059EDAA9D22F /* Pods_WKJavaScriptController_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WKJavaScriptController_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A2FA97C24E26E44005FE611 /* WKJavaScriptController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WKJavaScriptController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2A2FA97E24E26E44005FE611 /* WKJavaScriptController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WKJavaScriptController.h; sourceTree = "<group>"; };
+		2A2FA97F24E26E44005FE611 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2A2FA98924E26E57005FE611 /* WKJavaScriptController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WKJavaScriptController.swift; path = ../../Sources/WKJavaScriptController/WKJavaScriptController.swift; sourceTree = "<group>"; };
 		2A34D7D622277CB800250021 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
 		2A34D7D722277CC200250021 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CHANGELOG.md; path = ../../CHANGELOG.md; sourceTree = "<group>"; };
-		2CC90156977464A015EF3DCC /* Pods-WKJavaScriptController-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WKJavaScriptController-Demo.debug.xcconfig"; path = "Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		83D5383F1E2C960D00E42B6A /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		83D538411E2C978000E42B6A /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		83FA358A1E2C5C6900A6B171 /* WKJavaScriptController-Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "WKJavaScriptController-Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -31,28 +60,43 @@
 		83FA35941E2C5C6900A6B171 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		83FA35971E2C5C6900A6B171 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		83FA35991E2C5C6900A6B171 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FB0AE82DFFE17201B9503726 /* Pods-WKJavaScriptController-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WKJavaScriptController-Demo.release.xcconfig"; path = "Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2A2FA97924E26E44005FE611 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		83FA35871E2C5C6900A6B171 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9C30B52454ECA3F3E3AEDF4E /* Pods_WKJavaScriptController_Demo.framework in Frameworks */,
+				2A2FA98324E26E44005FE611 /* WKJavaScriptController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A2FA97D24E26E44005FE611 /* WKJavaScriptController */ = {
+			isa = PBXGroup;
+			children = (
+				2A2FA98924E26E57005FE611 /* WKJavaScriptController.swift */,
+				2A2FA97E24E26E44005FE611 /* WKJavaScriptController.h */,
+				2A2FA97F24E26E44005FE611 /* Info.plist */,
+			);
+			path = WKJavaScriptController;
+			sourceTree = "<group>";
+		};
 		83FA35811E2C5C6900A6B171 = {
 			isa = PBXGroup;
 			children = (
 				83FA358C1E2C5C6900A6B171 /* WKJavaScriptController-Demo */,
+				2A2FA97D24E26E44005FE611 /* WKJavaScriptController */,
 				83FA358B1E2C5C6900A6B171 /* Products */,
-				C601BA64EDC03710DF43F3A0 /* Pods */,
-				C71904662FF5A905B66EB106 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				83FA358A1E2C5C6900A6B171 /* WKJavaScriptController-Demo.app */,
+				2A2FA97C24E26E44005FE611 /* WKJavaScriptController.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,41 +126,53 @@
 			path = "WKJavaScriptController-Demo";
 			sourceTree = "<group>";
 		};
-		C601BA64EDC03710DF43F3A0 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				2CC90156977464A015EF3DCC /* Pods-WKJavaScriptController-Demo.debug.xcconfig */,
-				FB0AE82DFFE17201B9503726 /* Pods-WKJavaScriptController-Demo.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		C71904662FF5A905B66EB106 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				272FAEE1CFFC059EDAA9D22F /* Pods_WKJavaScriptController_Demo.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		2A2FA97724E26E44005FE611 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A2FA98024E26E44005FE611 /* WKJavaScriptController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		2A2FA97B24E26E44005FE611 /* WKJavaScriptController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2A2FA98524E26E44005FE611 /* Build configuration list for PBXNativeTarget "WKJavaScriptController" */;
+			buildPhases = (
+				2A2FA97724E26E44005FE611 /* Headers */,
+				2A2FA97824E26E44005FE611 /* Sources */,
+				2A2FA97924E26E44005FE611 /* Frameworks */,
+				2A2FA97A24E26E44005FE611 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WKJavaScriptController;
+			productName = WKJavaScriptController;
+			productReference = 2A2FA97C24E26E44005FE611 /* WKJavaScriptController.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		83FA35891E2C5C6900A6B171 /* WKJavaScriptController-Demo */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83FA359C1E2C5C6900A6B171 /* Build configuration list for PBXNativeTarget "WKJavaScriptController-Demo" */;
 			buildPhases = (
-				16F30D6D14CA9CB2B5D05932 /* [CP] Check Pods Manifest.lock */,
 				2A34D7D522250B8B00250021 /* SwiftFormat Script */,
 				83054A791F0C76460001C4B0 /* SwiftLint Script */,
 				83FA35861E2C5C6900A6B171 /* Sources */,
 				83FA35871E2C5C6900A6B171 /* Frameworks */,
 				83FA35881E2C5C6900A6B171 /* Resources */,
-				F74DCF0DFEA075B1393A95B5 /* [CP] Embed Pods Frameworks */,
+				2A2FA98824E26E44005FE611 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2A2FA98224E26E44005FE611 /* PBXTargetDependency */,
 			);
 			name = "WKJavaScriptController-Demo";
 			productName = "WKJavaScriptController-Demo";
@@ -129,19 +186,24 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Davin Ahn";
 				TargetAttributes = {
+					2A2FA97B24E26E44005FE611 = {
+						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1160;
+						ProvisioningStyle = Automatic;
+					};
 					83FA35891E2C5C6900A6B171 = {
 						CreatedOnToolsVersion = 8.2.1;
-						LastSwiftMigration = 1010;
+						LastSwiftMigration = 1160;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = 83FA35851E2C5C6900A6B171 /* Build configuration list for PBXProject "WKJavaScriptController-Demo" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -153,11 +215,19 @@
 			projectRoot = "";
 			targets = (
 				83FA35891E2C5C6900A6B171 /* WKJavaScriptController-Demo */,
+				2A2FA97B24E26E44005FE611 /* WKJavaScriptController */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2A2FA97A24E26E44005FE611 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		83FA35881E2C5C6900A6B171 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -173,28 +243,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		16F30D6D14CA9CB2B5D05932 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WKJavaScriptController-Demo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		2A34D7D522250B8B00250021 /* SwiftFormat Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -227,31 +275,17 @@
 			shellPath = /bin/sh;
 			shellScript = "function toVersion { echo -e \"$@\" | awk -F. '{ printf(\"%d%03d%03d%03d\\n\", $1,$2,$3,$4); }'; }\nif which swiftlint >/dev/null; then\n    current=$(swiftlint version)\n    require=\"0.30.1\"\n    if [ $(toVersion \"$current\") -ge $(toVersion \"$require\") ]; then\n        cd \"${PROJECT_DIR}/../\"\n        swiftlint\n    else\n        echo \"SwiftLint requires a SwiftLint version of >= $require. You are on $current.\"\n        echo \"Please update using 'brew upgrade swiftlint'.\"\n        exit 1\n    fi\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\n    exit 127\nfi\n";
 		};
-		F74DCF0DFEA075B1393A95B5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/WKJavaScriptController/WKJavaScriptController.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WKJavaScriptController.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WKJavaScriptController-Demo/Pods-WKJavaScriptController-Demo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2A2FA97824E26E44005FE611 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2A2FA98A24E26E57005FE611 /* WKJavaScriptController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		83FA35861E2C5C6900A6B171 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -262,6 +296,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2A2FA98224E26E44005FE611 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2A2FA97B24E26E44005FE611 /* WKJavaScriptController */;
+			targetProxy = 2A2FA98124E26E44005FE611 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		83FA35911E2C5C6900A6B171 /* Main.storyboard */ = {
@@ -283,10 +325,75 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2A2FA98624E26E44005FE611 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = WKJavaScriptController/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridi.WKJavaScriptController;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2A2FA98724E26E44005FE611 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = WKJavaScriptController/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ridi.WKJavaScriptController;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		83FA359A1E2C5C6900A6B171 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -331,7 +438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -344,6 +451,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -382,7 +490,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -392,8 +500,8 @@
 		};
 		83FA359D1E2C5C6900A6B171 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2CC90156977464A015EF3DCC /* Pods-WKJavaScriptController-Demo.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "WKJavaScriptController-Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -401,15 +509,15 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davin.WKJavaScriptController-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		83FA359E1E2C5C6900A6B171 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB0AE82DFFE17201B9503726 /* Pods-WKJavaScriptController-Demo.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = "WKJavaScriptController-Demo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -417,7 +525,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.davin.WKJavaScriptController-Demo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.2;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -425,6 +533,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2A2FA98524E26E44005FE611 /* Build configuration list for PBXNativeTarget "WKJavaScriptController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2A2FA98624E26E44005FE611 /* Debug */,
+				2A2FA98724E26E44005FE611 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		83FA35851E2C5C6900A6B171 /* Build configuration list for PBXProject "WKJavaScriptController-Demo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
