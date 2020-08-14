@@ -17,7 +17,7 @@ import WKJavaScriptController
 extension ViewController: JavaScriptInterface {
     func onSubmit(_ dictonary: [String: AnyObject]) {
         NSLog("onSubmit \(dictonary)")
-        isSubmitted = true
+        _isSubmitted = true
     }
     
     func onSubmit(_ dictonary: [String: AnyObject], clear: JSBool) {
@@ -25,19 +25,20 @@ extension ViewController: JavaScriptInterface {
         if clear.value {
             webView.evaluateJavaScript("clearAll()", completionHandler: nil)
         }
-        isSubmitted = true
+        _isSubmitted = true
     }
     
     func onSubmit(_ email: String, firstName: String, lastName: String, address1: String, address2: String, zipCode: JSInt, phoneNumber: String) {
         NSLog("onSubmit \(email), \(firstName), \(lastName), \(address1), \(address2), \(zipCode.value), \(phoneNumber)")
-        isSubmitted = true
+        _isSubmitted = true
     }
     
     func onCancel() {
         NSLog("onCancel")
+        _isSubmitted = false
     }
     
-    var isSubmitted: JSBool { JSBool(isSubmitted) }
+    var isSubmitted: JSBool { JSBool(_isSubmitted) }
     
     func getErrorMessages(codes: [JSInt]) -> [String] {
         codes.map { "message\($0)" }
@@ -47,7 +48,7 @@ extension ViewController: JavaScriptInterface {
 class ViewController: UIViewController {
     fileprivate var webView: WKWebView!
 
-    private var isSubmitted = false
+    private var _isSubmitted = false
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -63,6 +64,7 @@ class ViewController: UIViewController {
             javaScriptController.addUserScript(userScript)
             
             webView = WKWebView(frame: view.frame)
+            webView.uiDelegate = self
             view.addSubview(webView)
             
             // Assign javaScriptController.
@@ -73,5 +75,15 @@ class ViewController: UIViewController {
             webView.prepareForJavaScriptController() // Call prepareForJavaScriptController before initializing WKWebView or loading page.
             webView.loadHTMLString(htmlString, baseURL: Bundle.main.bundleURL)
         }
+    }
+}
+
+extension ViewController: WKUIDelegate {
+    func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+            completionHandler()
+        }))
+        present(alertController, animated: true, completion: nil)
     }
 }

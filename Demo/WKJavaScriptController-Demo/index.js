@@ -27,3 +27,8 @@ function clearAll() {
 function isChecked(id) {
     return document.getElementById(id).checked;
 };
+
+async function checkSumbit() {
+    const result = await native.isSubmitted;
+    alert(result ? 'Submitted.' : 'Not submitted.');
+}
