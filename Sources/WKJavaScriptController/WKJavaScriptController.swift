@@ -66,6 +66,8 @@ public extension Notification.Name {
     static let WKJavaScriptControllerWillMethodInvocation = Notification.Name("WKJavaScriptControllerWillMethodInvocationNotification")
 }
 
+private let identifier = "/* WKJavaScriptController */"
+
 open class WKJavaScriptController: NSObject {
     // If true, do not allow NSNull(when `undefined` or `null` passed from JavaScript) for method arguments.
     // That is, if receive NSNull as an argument, method call ignored.
@@ -98,9 +100,6 @@ open class WKJavaScriptController: NSObject {
     private let bridgeProtocol: Protocol
     private let name: String
     private weak var target: AnyObject?
-
-    // User script that will use the bridge.
-    private var userScripts = [WKUserScript]()
 
     fileprivate weak var webView: WKWebView?
 
@@ -272,21 +271,23 @@ open class WKJavaScriptController: NSObject {
     }
 
     fileprivate func injectTo(_ userContentController: WKUserContentController) {
-        userContentController.removeAllUserScripts()
-        var forMainFrameOnly = true
-        for userScript in userScripts {
-            forMainFrameOnly = forMainFrameOnly && userScript.isForMainFrameOnly
-            userContentController.addUserScript(userScript)
+        let userScripts = userContentController.userScripts.filter {
+            !$0.source.hasPrefix(identifier)
         }
-        userContentController.addUserScript(bridgeScript(forMainFrameOnly))
+        userContentController.removeAllUserScripts()
+
+        userContentController.addUserScript(bridgeScript())
         for bridge in bridges {
             userContentController.removeScriptMessageHandler(forName: bridge.jsSelector)
             userContentController.add(self, name: bridge.jsSelector)
         }
+
+        userScripts.forEach { userContentController.addUserScript($0) }
+
         isInjectRequired = false
     }
 
-    private func bridgeScript(_ forMainFrameOnly: Bool) -> WKUserScript {
+    private func bridgeScript() -> WKUserScript {
         var source = """
             window.\(name) = {
                 \(ReserveKeyword.createUUID): function() {
@@ -345,23 +346,17 @@ open class WKJavaScriptController: NSObject {
                 });
                 """
         }
-        return WKUserScript(source: source, injectionTime: .atDocumentStart, forMainFrameOnly: forMainFrameOnly)
+        return WKUserScript(
+            source: "\(identifier)\n\(source)",
+            injectionTime: .atDocumentStart,
+            forMainFrameOnly: true
+        )
     }
 
     private func log(_ message: String) {
         if logEnabled {
             NSLog("[WKJavaScriptController] \(message)")
         }
-    }
-
-    open func addUserScript(_ userScript: WKUserScript) {
-        userScripts.append(userScript)
-        isInjectRequired = true
-    }
-
-    open func removeAllUserScripts() {
-        userScripts.removeAll()
-        isInjectRequired = true
     }
 }
 

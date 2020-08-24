@@ -58,12 +58,18 @@ class ViewController: UIViewController {
             let javaScriptController = WKJavaScriptController(name: "native", target: self, bridgeProtocol: JavaScriptInterface.self)
 
             // [Optional] Add your javascript.
-            let jsPath = Bundle.main.path(forResource: "index", ofType: "js")!
-            let jsString = try! String(contentsOfFile: jsPath, encoding: String.Encoding.utf8)
-            let userScript = WKUserScript(source: jsString, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-            javaScriptController.addUserScript(userScript)
+            let configuration = WKWebViewConfiguration()
 
-            webView = WKWebView(frame: view.frame)
+            let userContentController = WKUserContentController()
+            let jsPath = Bundle.main.path(forResource: "index", ofType: "js")!
+            let jsCode = try! String(contentsOfFile: jsPath, encoding: String.Encoding.utf8)
+            let userScript = WKUserScript(source: jsCode, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+            userContentController.addUserScript(userScript)
+
+            configuration.userContentController = userContentController
+
+            // Create WKWebView instance.
+            webView = WKWebView(frame: view.frame, configuration: configuration)
             webView.uiDelegate = self
             view.addSubview(webView)
 
@@ -71,7 +77,7 @@ class ViewController: UIViewController {
             webView.javaScriptController = javaScriptController
 
             let htmlPath = Bundle.main.path(forResource: "index", ofType: "html")!
-            let htmlString = try! String(contentsOfFile: htmlPath, encoding: String.Encoding.utf8)
+            let htmlString = try! String(contentsOfFile: htmlPath, encoding: .utf8)
             webView.prepareForJavaScriptController() // Call prepareForJavaScriptController before initializing WKWebView or loading page.
             webView.loadHTMLString(htmlString, baseURL: Bundle.main.bundleURL)
         }
