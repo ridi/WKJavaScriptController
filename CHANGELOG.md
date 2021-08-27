@@ -7,119 +7,123 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-* None.
+- None.
+
+## [2.1.0 (2021-08-28)]
+
+- Deprecation cocoapods support.
 
 ## [2.0.2 (2020-02-06)]
 
 ### Added
 
-* Support Swift Package Manager.
+- Support Swift Package Manager.
 
 ## [2.0.1 (2019-03-06)]
 
 ### Changed
 
-* Change `JSValueType` description to string value.
+- Change `JSValueType` description to string value.
 
 ## [2.0.0 (2019-02-28)]
 
 ### Added
 
-* Support native return to JavaScript as [Promise](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise).
-* Add `logEnabled` property. (default: `true`)
-* Add `callbackTimeout` property. (default: `10`)
+- Support native return to JavaScript as [Promise](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+- Add `logEnabled` property. (default: `true`)
+- Add `callbackTimeout` property. (default: `10`)
 
 ### Changed
 
-* Rename `shouldSafeMethodCall` to `ignoreMethodCallWhenReceivedNull`.
-* Rename `shouldConvertJSONString` to `convertsToDictionaryWhenReceivedJsonString`.
+- Rename `shouldSafeMethodCall` to `ignoreMethodCallWhenReceivedNull`.
+- Rename `shouldConvertJSONString` to `convertsToDictionaryWhenReceivedJsonString`.
 
 ### Fixed
 
-* Fix an issue where string composed of numbers were cast to `JSInt` by parsing top-level objects as `JSONSerialization` with `allowFragments` read option.
+- Fix an issue where string composed of numbers were cast to `JSInt` by parsing top-level objects as `JSONSerialization` with `allowFragments` read option.
 
 ## [1.2.0 (2019-02-26)]
 
 ### Changed
 
-* Migrate to Swift 4.2.
+- Migrate to Swift 4.2.
 
 ## [1.1.9 (2018-07-31)]
 
 ### Fixed
 
-* Fix an issue where compile error with Xcode 9 in Swift 4 mode.
+- Fix an issue where compile error with Xcode 9 in Swift 4 mode.
 
 ## [1.1.8 (2017-11-29)]
 
-* None.
+- None.
 
 ## [1.1.7 (2017-09-26)]
 
 ### Fixed
 
-* Fix build error with Xcode 9.
+- Fix build error with Xcode 9.
 
 ## [1.1.6 (2017-07-05)]
 
 ### Fixed
 
-* Fix build error with Xcode 9.
+- Fix build error with Xcode 9.
 
 ## [1.1.5 (2017-02-08)]
 
 ### Changed
 
-* Change method invocation notification send order.
+- Change method invocation notification send order.
 
 ## [1.1.4 (2017-02-05)]
 
 ### Added
 
-* Add `shouldConvertJSONString` option.
+- Add `shouldConvertJSONString` option.
 
 ### Fixed
 
-* Fix to read methods of higher protocols.
+- Fix to read methods of higher protocols.
 
 ## [1.1.3 (2017-01-26)]
 
 ### Fixed
 
-* Fix JSON parse error.
+- Fix JSON parse error.
 
 ## [1.1.2 (2017-01-26)]
 
 ### Fixed
 
-* Fix cast arguments.
+- Fix cast arguments.
 
 ## [1.1.1 (2017-01-26)]
 
 ### Added
 
-* Add method invocation notification.
-* Add `shouldSafeMethodCall` property.
+- Add method invocation notification.
+- Add `shouldSafeMethodCall` property.
 
 ## [1.1.0 (2017-01-18)]
 
 ### Changed
 
-* Migrate to Swift 3.
+- Migrate to Swift 3.
 
 ## [1.0.2 (2017-01-18)]
 
-* None.
+- None.
 
 ## [1.0.1 (2017-01-18)]
 
 ### Fixed
 
-* Fix an issue where swift value type was parsed incorrectly.
+- Fix an issue where swift value type was parsed incorrectly.
 
 ## [1.0.0 (2017-01-17)]
 
-* First release.
+- First release.
 
 [Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.0.2...HEAD
 [2.0.2 (2020-02-06)]: https://github.com/ridi/WKJavaScriptController/compare/2.0.1...2.0.2
