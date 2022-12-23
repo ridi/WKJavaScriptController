@@ -103,16 +103,16 @@ open class WKJavaScriptController: NSObject {
 
     fileprivate weak var webView: WKWebView?
 
-    fileprivate var bridges = [MethodBridge]()
+    open var bridges = [MethodBridge]()
 
     fileprivate var isInjectRequired = true
 
-    fileprivate class MethodBridge {
-        var nativeSelector: Selector
-        var isExtendJsSelector: Bool // If true, use ObjC style naming.
-        var isReturnRequired: Bool
+    open class MethodBridge {
+        open private(set) var nativeSelector: Selector
+        open fileprivate(set) var isExtendJsSelector: Bool // If true, use ObjC style naming.
+        open fileprivate(set) var isReturnRequired: Bool
 
-        var jsSelector: String {
+        open var jsSelector: String {
             let selector = NSStringFromSelector(nativeSelector)
             let components = selector.components(separatedBy: ":")
             if components.isEmpty {
@@ -136,7 +136,7 @@ open class WKJavaScriptController: NSObject {
             }
         }
 
-        var argumentCount: Int {
+        open var argumentCount: Int {
             max(NSStringFromSelector(nativeSelector).components(separatedBy: ":").count - 1, 0)
         }
 
