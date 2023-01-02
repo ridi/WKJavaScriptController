@@ -486,91 +486,87 @@ extension WKJavaScriptController: WKScriptMessageHandler {
         }
 
         let imp = method_getImplementation(method)
-        DispatchQueue.global().async {
-            var result: Result!
-            switch bridge.argumentCount {
-            case 0:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation0.self)(target, bridge.nativeSelector)
-                } else {
-                    unsafeBitCast(imp, to: Invocation0.self)(target, bridge.nativeSelector)
-                }
-            case 1:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation1.self)(target, bridge.nativeSelector, self.cast(args[0]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation1.self)(target, bridge.nativeSelector, self.cast(args[0]))
-                }
-            case 2:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation2.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation2.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]))
-                }
-            case 3:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation3.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation3.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]))
-                }
-            case 4:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation4.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation4.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]))
-                }
-            case 5:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation5.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation5.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]))
-                }
-            case 6:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation6.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation6.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]))
-                }
-            case 7:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation7.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation7.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]))
-                }
-            case 8:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation8.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]), self.cast(args[7]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation8.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]), self.cast(args[7]))
-                }
-            case 9:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation9.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]), self.cast(args[7]), self.cast(args[8]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation9.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]), self.cast(args[7]), self.cast(args[8]))
-                }
-            case argumentCountLimit:
-                if bridge.isReturnRequired {
-                    result = unsafeBitCast(imp, to: XInvocation10.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]), self.cast(args[7]), self.cast(args[8]), self.cast(args[9]))
-                } else {
-                    unsafeBitCast(imp, to: Invocation10.self)(target, bridge.nativeSelector, self.cast(args[0]), self.cast(args[1]), self.cast(args[2]), self.cast(args[3]), self.cast(args[4]), self.cast(args[5]), self.cast(args[6]), self.cast(args[7]), self.cast(args[8]), self.cast(args[9]))
-                }
-            default:
-                // Not called.
-                break
+        var result: Result!
+        switch bridge.argumentCount {
+        case 0:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation0.self)(target, bridge.nativeSelector)
+            } else {
+                unsafeBitCast(imp, to: Invocation0.self)(target, bridge.nativeSelector)
             }
-
-            DispatchQueue.main.async {
-                let script = """
-                    (() => {
-                        const callback = \(self.name).\(ReserveKeyword.callbackList)['\(callbackId)'];
-                        callback.end = new Date();
-                        callback.resolve(\(bridge.isReturnRequired ? self.stringFrom(result) : ""));
-                        clearTimeout(callback.timer);
-                    })();
-                    """
-                self.webView?.evaluateJavaScript(script, completionHandler: nil)
+        case 1:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation1.self)(target, bridge.nativeSelector, cast(args[0]))
+            } else {
+                unsafeBitCast(imp, to: Invocation1.self)(target, bridge.nativeSelector, cast(args[0]))
             }
+        case 2:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation2.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]))
+            } else {
+                unsafeBitCast(imp, to: Invocation2.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]))
+            }
+        case 3:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation3.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]))
+            } else {
+                unsafeBitCast(imp, to: Invocation3.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]))
+            }
+        case 4:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation4.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]))
+            } else {
+                unsafeBitCast(imp, to: Invocation4.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]))
+            }
+        case 5:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation5.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]))
+            } else {
+                unsafeBitCast(imp, to: Invocation5.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]))
+            }
+        case 6:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation6.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]))
+            } else {
+                unsafeBitCast(imp, to: Invocation6.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]))
+            }
+        case 7:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation7.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]))
+            } else {
+                unsafeBitCast(imp, to: Invocation7.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]))
+            }
+        case 8:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation8.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]))
+            } else {
+                unsafeBitCast(imp, to: Invocation8.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]))
+            }
+        case 9:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation9.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]))
+            } else {
+                unsafeBitCast(imp, to: Invocation9.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]))
+            }
+        case argumentCountLimit:
+            if bridge.isReturnRequired {
+                result = unsafeBitCast(imp, to: XInvocation10.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]), cast(args[9]))
+            } else {
+                unsafeBitCast(imp, to: Invocation10.self)(target, bridge.nativeSelector, cast(args[0]), cast(args[1]), cast(args[2]), cast(args[3]), cast(args[4]), cast(args[5]), cast(args[6]), cast(args[7]), cast(args[8]), cast(args[9]))
+            }
+        default:
+            // Not called.
+            break
         }
+
+        let script = """
+            (() => {
+                const callback = \(name).\(ReserveKeyword.callbackList)['\(callbackId)'];
+                callback.end = new Date();
+                callback.resolve(\(bridge.isReturnRequired ? stringFrom(result) : ""));
+                clearTimeout(callback.timer);
+            })();
+            """
+        webView?.evaluateJavaScript(script, completionHandler: nil)
     }
 }
