@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - None.
 
+## [2.2.1 (2023-01-03)]
+
+- Revert wrong modified for thread.
+
 ## [2.2.0 (2022-12-23)]
 
 - Change `bridges` access modifier to open.
@@ -130,7 +134,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - First release.
 
-[Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.2.0...HEAD
+[Unreleased]: https://github.com/ridi/WKJavaScriptController/compare/2.2.1...HEAD
+[2.2.1 (2023-01-03)]: https://github.com/ridi/WKJavaScriptController/compare/2.2.0...2.2.1
 [2.2.0 (2022-12-23)]: https://github.com/ridi/WKJavaScriptController/compare/2.1.0...2.2.0
 [2.1.0 (2021-08-28)]: https://github.com/ridi/WKJavaScriptController/compare/2.0.2...2.1.0
 [2.0.2 (2020-02-06)]: https://github.com/ridi/WKJavaScriptController/compare/2.0.1...2.0.2
