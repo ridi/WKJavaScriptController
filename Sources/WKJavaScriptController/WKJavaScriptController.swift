@@ -103,7 +103,7 @@ open class WKJavaScriptController: NSObject {
 
     fileprivate weak var webView: WKWebView?
 
-    open var bridges = [MethodBridge]()
+    open private(set) var bridges = [MethodBridge]()
 
     fileprivate var isInjectRequired = true
 
